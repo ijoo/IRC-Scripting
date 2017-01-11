@@ -34,7 +34,7 @@ if {![file exists $ijootcl_setting(delete)]} {
 	putlog "Creating Chk Delete Files"
         append out "#\!/usr/bin/env bash\n"
         append out "\n"
-		append out "find \$1 -maxdepth 1 -cmin \+\$2 -name \*.mp3 -exec rm -rf \{\} \\;\n"
+	append out "find \$1 -maxdepth 1 -cmin \+\$2 -name \*.mp3 -exec rm -rf \{\} \\;\n"
         set fd [open "$ijootcl_setting(delete)" w]
         puts $fd $out
         unset out
@@ -48,18 +48,18 @@ proc ijootcl_mp3 {nick uhost handle chan text } {
         foreach i [channel info $chan] {
                 if {([string match "+ijootcl" $i])} {
                         if {$hostlink == ""} {
-								putquick "PRIVMSG $chan :Syntax: \002@mp3\002 <singer> - <sing title> or <Youtube llnk>"
+				putquick "PRIVMSG $chan :Syntax: \002@mp3\002 <singer> - <sing title> or <Youtube llnk>"
                        	} elseif {[string match "*youtube.com*" $hostlink] || [string match "*youtu.be*" $hostlink]} {
-								putquick "PRIVMSG $chan :Prosessing MP3 request by $nick "
-								set ijoo_judul [exec youtube-dl $hostlink -e]
-								set ijoo_id [exec youtube-dl $hostlink --get-id]
-								set ijoo_dur [exec youtube-dl $hostlink --get-duration]
-								set linkmp3 [tinyurl "$ijootcl_setting(web)$ijoo_id.mp3"]
+				putquick "PRIVMSG $chan :Prosessing MP3 request by $nick "
+				set ijoo_judul [exec youtube-dl $hostlink -e]
+				set ijoo_id [exec youtube-dl $hostlink --get-id]
+				set ijoo_dur [exec youtube-dl $hostlink --get-duration]
+				set linkmp3 [tinyurl "$ijootcl_setting(web)$ijoo_id.mp3"]
                                 set ijoo_ytdl [exec youtube-dl $hostlink --extract-audio --audio-format mp3 -o "$ijootcl_setting(path)%(id)s.%(ext)s"]
 					foreach line [split $ijoo_ytdl "\r\n"] {
         		                       if {[string match "*eleting original file*" $line]} {
                          	               puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 $ijoo_judul (\002 $ijoo_dur \002) - \002Download:\002 $linkmp3 "
-										   puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 Files Auto Delete Every\002 $ijootcl_setting(time) Minutes\002 | \002c\002Re\002a\002T\002e\002d \002B\002y i\002J\002oo \037<admin@ijoo.org>\037"
+					       puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 Files Auto Delete Every\002 $ijootcl_setting(time) Minutes\002 | \002c\002Re\002a\002T\002e\002d \002B\002y i\002J\002oo \037<admin@ijoo.org>\037"
                                 	}
 				}							
 			} else {
