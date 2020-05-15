@@ -45,11 +45,6 @@ while(<$sock>){
  $line   = lc($line);
  $countaway ++;
 
-if ($countaway == "100") {
-   print $sock "AWAY ".&mylogo." [\037Uptime:\037 ".&uptime."] ".chr(187)." ".&away." ".chr(171)."\n";
-   $countaway = 0;
-}
-
 if($backup =~ m/^PING :(.*?)$/gi) {
    print $sock "PONG $1 \r\n";
 }
@@ -75,6 +70,11 @@ if($line=~/^error :closing link:/){
 if($backup=~/^:(\S+)!(\S+)\@(\S+) PRIVMSG $botnick :\001VERSION\001.$/){
   print $sock "NOTICE $1 :\001VERSION ".&versi." $^V \001\n";
  }
+
+if ($countaway == "100") {
+   print $sock "AWAY ".&mylogo." [\037Uptime:\037 ".&uptime."] ".chr(187)." ".&away." ".chr(171)."\n";
+   $countaway = 0;
+}
 
 ### Chat ###
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :$botnick .say (.*?).$/){
