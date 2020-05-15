@@ -10,7 +10,9 @@ use Text::Capitalize qw( scramble_case );
 use Time::Seconds;
 use POSIX;
 
+$acak = int(rand(99999)) + 10000;
 $botnick = "PenJaGa";
+$nickalt = "$botnick-$acak";
 $botpass = "xxxxxx";
 $admin = "ijoo";
 $server = "irc.chating.id";
@@ -50,6 +52,10 @@ if ($countaway == "100") {
 
 if($backup =~ m/^PING :(.*?)$/gi) {
    print $sock "PONG $1 \r\n";
+}
+
+if($backup =~ /Nickname is already in use/) {
+   print $sock "NICK $nickalt\n";
 }
 
 if($line=~/376/){
