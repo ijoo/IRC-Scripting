@@ -54,6 +54,7 @@ if($backup =~ m/^PING :(.*?)$/gi) {
    print $sock "PONG $1 \r\n";
 }
 if($line=~/376/){
+   print "+ $botnick - $botip -> Connect to Server!\n";
    print $sock "JOIN $channel \r\n";
 }
 if($line=~/433/){
@@ -98,7 +99,6 @@ if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :$botnick restart/){
 }
 }
 }
-print "\n+ Done!! \n";
 
 sub mylogo {
         my @aw = ("1","0","14");
