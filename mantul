@@ -55,7 +55,6 @@ if($backup =~ m/^PING :(.*?)$/gi) {
    print $sock "PONG $1 \r\n";
 }
 if($line=~/376/){
-   print "+ $botnick $botip -> Connect to Server! \n";
    print $sock "JOIN $channel \r\n";
 }
 if($line=~/^error :closing link:/){
