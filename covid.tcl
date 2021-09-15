@@ -30,7 +30,7 @@ bind msg n part msg_part
 bind pub n `part pub_part
 bind pub n `auth pub_auth
 bind pub n `chanset pub_chanset
-bind pub n `uptime pub_uptime
+bind pub n `ver pub_info
 
 bind notc - "*This nickname is registered and protected.*" autoident
 bind notc - "*Password accepted - you are now recognized.*" compautoident
@@ -231,13 +231,14 @@ proc pub_chanset {nick uhost hand chan rest} {
 
 }
 
-proc pub_uptime {nick uhost hand chan rest} {
-	global botnick notic tolak
+proc pub_info {nick uhost hand chan rest} {
+	global botnick notic tolak version tcl_version
 	if {![matchattr $hand Z]} {
 		putquick "NOTICE $nick :$notic AksES $tolak"
 		return 0
 	}
-	putquick "PRIVMSG $chan :[lgrnd] [duration [expr [clock seconds] - $::uptime]]" 
+	puthelp "PRIVMSG $chan :[lgrnd] RuNNINg WiTH EggDrop v[lindex $version 0] wiTh tCL $tcl_version"
+	puthelp "PRIVMSG $chan :[lgrnd] UptiMe: [duration [expr [clock seconds] - $::uptime]]"
 }
 
 proc unsix {txt} {
