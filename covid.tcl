@@ -157,7 +157,7 @@ proc msg_join {nick uhost hand rest} {
 	}
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: /msg $botnick <#chan>"
+		putquick "NOTICE $nick :$notic Command: /msg $botnick join <#chan>"
 	} else {
 		channel add $namachan
 		putquick "NOTICE $nick :$notic jOin $namachan"
@@ -172,7 +172,7 @@ proc pub_join {nick uhost hand chan rest} {
 	}
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: /msg $botnick <#chan>"
+		putquick "NOTICE $nick :$notic Command: `join <#chan>"
 	} else {
 		channel add $namachan
 		putquick "NOTICE $nick :$notic jOin $namachan"
@@ -188,7 +188,7 @@ proc msg_part {nick uhost hand rest} {
 	}
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: /msg $botnick <#chan>"
+		putquick "NOTICE $nick :$notic Command: /msg $botnick part <#chan>"
 	} else {
 		set partmsg [lindex $partm [rand [llength $partm]]]
 		putserv "PART $namachan $partmsg"
@@ -205,7 +205,7 @@ proc pub_part {nick uhost hand chan rest} {
 	}
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: /msg $botnick <#chan>"
+		putquick "NOTICE $nick :$notic Command: `part <#chan>"
 	} else {
 		set partmsg [lindex $partm [rand [llength $partm]]]
 		putserv "PART $namachan $partmsg"
