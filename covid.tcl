@@ -1,7 +1,7 @@
 ##############################################################################
 ##                                                                          ##
 ## TCL NAME : COVID TCL                                                     ##
-## VERSION  : 1.0-dev                                                       ##
+## VERSION  : 1.2-dev                                                       ##
 ## RELEASE  : 15 SEPT 2021                                                  ##
 ## AUTHOR   : IJOO A.K.A VICTOR                                             ##
 ##                                                                          ##
@@ -74,10 +74,11 @@ proc compautoident2 {nick uhost hand text dest} {
 	putserv "PRIVMSG $owner :$notim \002Identification\002 has been successful.."
 }
 
+##### PROC MSG
 proc msg_sz {nick uhost hand rest} {
 	global botnick notim tolak
 	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notim AksES $tolak"
+		putquick "NOTICE $nick :$notim [katakata "akses"] $tolak"
 		return 0
 	}
 
@@ -99,11 +100,11 @@ proc msg_sz {nick uhost hand rest} {
 proc msg_auth {nick uhost hand rest} {
 	global botnick notic tolak tuan
 	if {![matchattr $hand n]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
 	if {[matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic sUdAh aUth dEnGAn aKseS $tuan"
+		putquick "NOTICE $nick :$notic [katakata "sudah auth dengan akses"] $tuan"
 		return 0
 	}
 	set inputpw [lindex $rest 0]
@@ -117,42 +118,32 @@ proc msg_auth {nick uhost hand rest} {
 		setuser $nick HOSTS $hostmask
 		setuser $nick XTRA COVID $inputpw
 		chattr $nick +fZHQ
-		putquick "NOTICE $nick :$notic AksES $tuan"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tuan"
 		save
 	} else {
-		putquick "NOTICE $nick :$notic PaSSw0rd SaLAh!"
+		putquick "NOTICE $nick :$notic [katakata "password salah"]!"
 	}
 }
 
 proc msg_deauth {nick uhost hand rest} {
 	global botnick notic tolak
 	if {![matchattr $hand n]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
 	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic beLum auTh ke BoT!"
+		putquick "NOTICE $nick :$notic [katakata "belum melakukan auth ke bot"]!"
 		return 0
 	}
 	chattr $nick -Z
 	save
-	putquick "NOTICE $nick :$notic SuKSeS deAuTh!"
+	putquick "NOTICE $nick :$notic [katakata "sukses deauth"]!"
 }
 
-proc pub_auth {nick uhost hand chan rest} {
-	global botnick notic tolak tuan
-	if {![matchattr $hand Z]} {
-		putquick "PRIVMSG $chan :$nick, $tolak"
-	} else {
-		putquick "PRIVMSG $chan :$nick, $tuan"
-	}
-}
-
-############## JOIN
 proc msg_join {nick uhost hand rest} {
 	global botnick notic tolak
 	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
 	set namachan [lindex $rest 0]
@@ -160,30 +151,14 @@ proc msg_join {nick uhost hand rest} {
 		putquick "NOTICE $nick :$notic Command: /msg $botnick join <#chan>"
 	} else {
 		channel add $namachan
-		putquick "NOTICE $nick :$notic jOin $namachan"
+		putquick "NOTICE $nick :$notic [katakata "joining"] $namachan"
 	}
 }
 
-proc pub_join {nick uhost hand chan rest} {
-	global botnick notic tolak
-	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
-		return 0
-	}
-	set namachan [lindex $rest 0]
-	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: `join <#chan>"
-	} else {
-		channel add $namachan
-		putquick "NOTICE $nick :$notic jOin $namachan"
-	}
-}
-
-############## PART
 proc msg_part {nick uhost hand rest} {
 	global botnick notic tolak partm partmsg
 	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
 	set namachan [lindex $rest 0]
@@ -192,59 +167,15 @@ proc msg_part {nick uhost hand rest} {
 	} else {
 		set partmsg [lindex $partm [rand [llength $partm]]]
 		putserv "PART $namachan $partmsg"
-		putquick "NOTICE $nick :$notic paRt $namachan"
-		channel remove $namachan		
-	}
-}
-
-proc pub_part {nick uhost hand chan rest} {
-	global botnick notic tolak partm partmsg
-	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
-		return 0
-	}
-	set namachan [lindex $rest 0]
-	if { $namachan == ""} {
-		putquick "NOTICE $nick :$notic Command: `part <#chan>"
-	} else {
-		set partmsg [lindex $partm [rand [llength $partm]]]
-		putserv "PART $namachan $partmsg"
-		putquick "NOTICE $nick :$notic paRt $namachan"
+		putquick "NOTICE $nick :$notic [katakata "parting"] $namachan"
 		channel remove $namachan
 	}
-}
-
-proc pub_chanset {nick uhost hand chan rest} {
-	global botnick notic tolak
-	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
-		return 0
-	}
-	set opsitext [string tolower [lindex $rest 0]]
-	foreach i [channel info $chan] {
-		if {([string match "$opsitext" $i])} {
-			putquick "NOTICE $nick :$notic OpsI $opsitext suDaH aDa!"
-			return 0
-		}
-	}	
-	channel set $chan ${opsitext}
-	putquick "NOTICE $nick :$notic ChaneL suDAh di sET: $opsitext"
-
-}
-
-proc pub_info {nick uhost hand chan rest} {
-	global botnick notic tolak version tcl_version
-	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
-		return 0
-	}
-	puthelp "PRIVMSG $chan :[lgrnd] RuNNINg WiTH EggDrop v[lindex $version 0] wiTh tCL $tcl_version"
 }
 
 proc msg_identify {nick uhost hand rest} {
 	global botnick notic tolak
 	if {![matchattr $hand Z]} {
-		putquick "NOTICE $nick :$notic AksES $tolak"
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
 	set passwo [lindex $rest 0]
@@ -255,6 +186,78 @@ proc msg_identify {nick uhost hand rest} {
 	}
 }
 
+############## PROC PUB
+proc pub_auth {nick uhost hand chan rest} {
+	global botnick notic tolak tuan
+	if {![matchattr $hand Z]} {
+		putquick "PRIVMSG $chan :$nick, $tolak"
+	} else {
+		putquick "PRIVMSG $chan :$nick, $tuan"
+	}
+}
+
+proc pub_join {nick uhost hand chan rest} {
+	global botnick notic tolak
+	if {![matchattr $hand Z]} {
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
+		return 0
+	}
+	set namachan [lindex $rest 0]
+	if { $namachan == ""} {
+		putquick "NOTICE $nick :$notic Command: `join <#chan>"
+	} else {
+		channel add $namachan
+		putquick "NOTICE $nick :$notic [katakata "joining"] $namachan"
+	}
+}
+
+proc pub_part {nick uhost hand chan rest} {
+	global botnick notic tolak partm partmsg
+	if {![matchattr $hand Z]} {
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
+		return 0
+	}
+	set namachan [lindex $rest 0]
+	if { $namachan == ""} {
+		putquick "NOTICE $nick :$notic Command: `part <#chan>"
+	} else {
+		set partmsg [lindex $partm [rand [llength $partm]]]
+		putserv "PART $namachan $partmsg"
+		putquick "NOTICE $nick :$notic [katakata "parting"] $namachan"
+		channel remove $namachan
+	}
+}
+
+proc pub_chanset {nick uhost hand chan rest} {
+	global botnick notic tolak
+	if {![matchattr $hand Z]} {
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
+		return 0
+	}
+	set opsitext [string tolower [lindex $rest 0]]
+	foreach i [channel info $chan] {
+		if {([string match "$opsitext" $i])} {
+			putquick "NOTICE $nick :$notic [katakata "sudah ada opsi"] $opsitext !"
+			return 0
+		}
+	}	
+	channel set $chan ${opsitext}
+	putquick "NOTICE $nick :$notic [katakata "channel sudah diset"]: $opsitext"
+
+}
+
+proc pub_info {nick uhost hand chan rest} {
+	global botnick notic tolak version tcl_version
+	if {![matchattr $hand Z]} {
+		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
+		return 0
+	}
+	set getos [exec head -n1 /etc/os-release]
+	set myos [string map {"PRETTY_NAME=" ""} $getos]
+	puthelp "PRIVMSG $chan :[lgrnd] [katakata "running with eggdrop"] v[lindex $version 0] [katakata "with tcl"] $tcl_version on $myos"
+}
+
+###### PROC FUNCTION
 proc unsix {txt} {
 	set retval $txt
 	regsub ~ $retval "" retval
@@ -299,6 +302,24 @@ proc setaway {} {
 	set fixaway "[lgrnd] \[\037Uptime:\037 $waktu\] [dezip "EL0P10zaHDp/"] $awaymsg [dezip "ivRvn.ZAO1G/"]"
 	putserv "AWAY $fixaway"
 	timer 30 setaway
+}
+
+proc katakata {kata} {
+	set kata1 [split $kata ""]
+	set kata2 ""
+	foreach kata3 $kata1 {
+		if {[string trim $kata3] != " "} {
+			append kata2 [atasbawah $kata3] ""
+		}
+	}
+	return [string trim $kata2]
+}
+
+proc atasbawah {abjad} {
+	set acakx {"tolower" "toupper"}
+	set acaky [lindex $acakx [rand [llength $acakx]]]
+	set ab [string $acaky $abjad]
+	return $ab
 }
 
 set notic [dezip "UdE3x0oEa700JjCIJ1lMldw1"]
