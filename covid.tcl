@@ -252,8 +252,9 @@ proc pub_info {nick uhost hand chan rest} {
 		putquick "NOTICE $nick :$notic [katakata "akses"] $tolak"
 		return 0
 	}
-	set getos [exec head -n1 /etc/os-release]
-	set myos [string map {"PRETTY_NAME=" ""} $getos]
+	set getos "grep PRETTY /etc/os-release"
+	catch { eval exec $getos } outputx
+	set myos [string map {"PRETTY_NAME=" ""} $outputx]
 	puthelp "PRIVMSG $chan :[lgrnd] [katakata "running with eggdrop"] v[lindex $version 0] [katakata "with tcl"] $tcl_version on $myos"
 }
 
