@@ -397,16 +397,9 @@ proc lgrnd {} {
 	set bg1 [lindex $hitamputih [rand [llength $hitamputih]]]
 	set bg2 [lindex $berwarna [rand [llength $berwarna]]]
 	set show_logo "\003$bg1,$bg2"
-	append show_logo "C"
-	append show_logo "\003$bg2,$bg1"
-	append show_logo "o"
-	append show_logo "\003$bg1,$bg2"
-	append show_logo "V"
-	append show_logo "\003$bg2,$bg1"
-	append show_logo "I"
-	append show_logo "\003$bg1,$bg2"
-	append show_logo "D"
-	append show_logo "\003"
+	append show_logo "C";append show_logo "\003$bg2,$bg1";append show_logo "o"append show_logo "\003$bg1,$bg2"
+	append show_logo "V";append show_logo "\003$bg2,$bg1";append show_logo "I"append show_logo "\003$bg1,$bg2"
+	append show_logo "D";append show_logo "\003"
 	set lgrnd $show_logo
 }
 
