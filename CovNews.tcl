@@ -42,8 +42,7 @@ proc go_berita {args} {
 proc get_berita {cat} {
         global ijoo a_berita
         set mx 0
-        set kat $cat
-        set urlnews https://$kat.detik.com/rss
+        set urlnews https://$cat.detik.com/rss
         set srcout [http::data [http::geturl $urlnews]]
         set dom [dom parse $srcout]
         set root [$dom documentElement]
