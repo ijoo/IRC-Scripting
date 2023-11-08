@@ -30,7 +30,7 @@ proc autovoice:users {nick uhost hand chan text} {
 proc autovoice:delay {nick chan} {
  set user [split [string tolower $nick:$chan]]
  if {[botisop $chan] && [onchan $nick $chan] && ![isop $nick $chan] && ![isvoice $nick $chan] && ![string match "Guest*" $nick]} { pushmode $chan +v $nick ; set voiced($user) 1 }
- if {[info exists voiced($user)]} { pushmode $chan -k 14a4çtive.14ç4hatter ; flushmode $chan }
+ if {[info exists voiced($user)]} { pushmode $chan -k 14a4Ã§tive.14Ã§4hatter ; flushmode $chan }
 }
 proc autovoice:erase:record {nick uhost hand chan} {
  global autovoice voice
@@ -51,7 +51,7 @@ proc autovoice:devoice:idlers {m h d mo y} {
               if {![info exists devoice($chan)]} { set devoice($chan) 1 }
             } else { continue }
         }
-        if {[info exists devoice($chan)]} { pushmode $chan -k 14d4epøis.14f4ør.14i4dle ; flushmode $chan }
+        if {[info exists devoice($chan)]} { pushmode $chan -k 14d4epÃ¸is.14f4Ã¸r.14i4dle ; flushmode $chan }
 } } } }
 putlog "Active Chatter v3.75.b by awyeah edited by F4R1S has been loaded successfully."
 
@@ -67,10 +67,10 @@ proc xactr {nick uhost hand dest key couk} {
       foreach x [channels] {
         if {[onchan ${nick} $x]} {
           if {[botisop $x]} {
-            set bannick($nick) "$uhost" ; putquick "KICK $x ${nick} :$notc 4!14lamer4! 14ctcp ping e4X14ploit14 frøm4 ${nick}($uhost) [banmsg]"
+            set bannick($nick) "$uhost" ; putquick "KICK $x ${nick} :$notc 4!14lamer4! 14ctcp ping e4X14ploit14 frÃ¸m4 ${nick}($uhost) [banmsg]"
             } else {
             if {![string match "*c*" [getchanmode $x]]} { putquick "PRIVMSG $x :\001ACTION Detecting14 ${nick}($uhost) Using ctcp ping e4X14ploit To Hack Me.\001" } { putquick "PRIVMSG $x :\001ACTION Detecting ${nick}($uhost) Using ctcp ping eXploit To Hack Me.\001" }
-            foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x ${nick} $notc 4!14lamer4! 14Ctcp Ping e4X14ploit14 frøm4 ${nick}($uhost) 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
+            foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x ${nick} $notc 4!14lamer4! 14Ctcp Ping e4X14ploit14 frÃ¸m4 ${nick}($uhost) 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
       } } }
       newignore "${nick}!*@*" F4R1S ctcp-hack 1 ; putlog "$notc 1 minutes ignoring ${nick} for ctcp e4X14ploit"
     }
@@ -159,7 +159,7 @@ set kickms {
   "E=mc2 = F/(s^2) = (x-y3*2,03)" "Yuch ! What A Stinch !" "Not Going To Sit For A While ?" "Well Aren't You Answering Me ?" "Thanks I Needed These !" "Come Back When You Can Breath !" "This random message was censored by popular request.."
   "Ohh Isn't That Love Between Man And Animal So Cute !" "Damn I Got Brains All Over Me !" "SHUU !! You Are Dead !" "Man What A NutCase !" "-> Caught You Looking ! <-" "That Was A Nice Try Kid" "Look! A Talking BungHole!"
   "This is our subtle way of saying goodbye" "-> Kiddie Kick <-" "I Am Doing It, YES ! (Phew Was Close Again)" "We Don't Like Faggots Here !" "Hey SHUT THE FUCK UP !" "Buh Bye Then !" "#lamers is a better place for you"
-  "|¯| <- there's the exit" "Lamer Shields Activated !" "This Is My Last Option" "Do You Want to See the Bed in Flames?" "You believe it would be hard to kill, But where are all of the dead coming from?" "Sex is a Battle, Love is War..."
+  "|Â¯| <- there's the exit" "Lamer Shields Activated !" "This Is My Last Option" "Do You Want to See the Bed in Flames?" "You believe it would be hard to kill, But where are all of the dead coming from?" "Sex is a Battle, Love is War..."
   "I'm not sorry, this is what you deserve!!" "Run, run for your lives..." "You, in the schoolyard, I am ready to kill You..." "My black blood and your white flesh..." "The cold sweat on your white forehead, hails into my sick brain..."
   "I will $always become hornier from your screams..." "Your White Flesh Excites Me So..." "I'm Just a Gigolo..." "My father was exactly like me..." "Your White Flesh Enlights Me..." "Warm body, hot cross, wrong judgment, cold grave..."
   "I will return in ten days, as your shadow, and I will hunt you down..." "Ashes to ashes, and dust to dust..." "I follow you, I find you, I touch you, And Now, I have you..." "Never again, the old sorrow..." 
@@ -184,17 +184,17 @@ set kickms {
   "Did you hear something?" "Another spammer meet the foot-face" "Tell me what you've got" "Please, do not S*P*A*M*M*I*N*G!!" "Out, damn spot, out I say!" "I can hear somebody FELL in the blank!"
   "Can somebody stop this guy???" "Perhaps you should try real life for awhile" "okluvyabubye" "*blam!* yeah, beeyaaaach I poped a cap in yo' ass!" "Another spammer meet the foot-face - [o]"
   "eeeeeeeekkkkkkkk!" "Out!!" "U hurt my ears , my eyes , my felling and u`re OUT !!" "From Heaven With Love" "Heaven And Earth And You go to moon" "Ups!!" "Sorry but u`re not allowed being here"
-  "U like my new shoes ?!" "No reason :Pp~" "Kick Kick Kick Kick Kick Kick" "Can't do nuttin with that" "Testing Testing" "Isit hurt ?!" "Lamer deteçted" "Uncool not allowed" "Request - Request"
-  "Go!!" "Are You there ?¿?" "asl pls :P~" "Last warning now hush!!" "Confucius say If you can't shut up here, speak elsewhere" "Eat this!!" "Jump or die!" "And should we really care?" "If you're fighting to live, It's ok to die!"
+  "U like my new shoes ?!" "No reason :Pp~" "Kick Kick Kick Kick Kick Kick" "Can't do nuttin with that" "Testing Testing" "Isit hurt ?!" "Lamer deteÃ§ted" "Uncool not allowed" "Request - Request"
+  "Go!!" "Are You there ?Â¿?" "asl pls :P~" "Last warning now hush!!" "Confucius say If you can't shut up here, speak elsewhere" "Eat this!!" "Jump or die!" "And should we really care?" "If you're fighting to live, It's ok to die!"
   "No escaping pain, you belong to me" "I need a ride to the morgue, that's what 911 is for" "That doesn't kill me, only makes me stronger" "Forgive me father, for I have sinned" "Lie, steal and cheat, a real bad guy!"
   "Pull over, shithead, this is the cops!" "Rot in hell, it's time you know your master, off you go!" "Excess Lameness" "Killed (Mom (Don't hang around with them! They're troublemakers!)"
   "Come back when you've finally learned not to be lame" "Congratulations, you won a brand new kick!" "Crash! Boom! Bang!" "Cya later - much later" "Death greets me warm, now I will just say goodbye."
   "Death in the air, strapped in the electric chair." "Choose your fate and die!" "You've been dying since the day you were born" "You know it has all been planned" "Now there's nothing you can do"
   "Cya, Wouldn't wanna be ya" "Thanks for leaving, come back soon!" "He winds up and your out" "YOUR FIRED!!!" "There is the kick And It's GOOD!" "What to expect in upcoming versions" "More commands*"
   "Any suggestions submitted*" "Any fixes for bugs in pervious version(s)*" "Updated kicks files*" "Only In Sadness Comes Awakening" "Not enough memory to display" "Another one bites the dust"
-  "No Such Nick/channel" "Damm, I'm good" "I think I will have another beer" "that's all i have to say about you" "There's a better place for you; But it´s far, far away" "If you think that f*ck is funny, f*ck yourself and save your money"
-  "Kenny doesn´t want to die!!" "Yo momma so ugly the government moved Halloween to her birthday" "Yo momma so stupid she watches teletubbies and takes notes" "Mess with the best die like the rest"
-  "This isn´t BitchX baby!" "Yo momma so stupid she sits on the TV, and watches the couch" "Yo momma so bald that she took a shower and got brain-washed" "Kyles momma is a stupid bitch!"
+  "No Such Nick/channel" "Damm, I'm good" "I think I will have another beer" "that's all i have to say about you" "There's a better place for you; But itÂ´s far, far away" "If you think that f*ck is funny, f*ck yourself and save your money"
+  "Kenny doesnÂ´t want to die!!" "Yo momma so ugly the government moved Halloween to her birthday" "Yo momma so stupid she watches teletubbies and takes notes" "Mess with the best die like the rest"
+  "This isnÂ´t BitchX baby!" "Yo momma so stupid she sits on the TV, and watches the couch" "Yo momma so bald that she took a shower and got brain-washed" "Kyles momma is a stupid bitch!"
   "Here comes the sun" "We're going to have a problem here" "May I have your attention please? Will the real Slim Shady please stand up?" "I'm Slim Shady" "Yes I'm the real Shady All you other Slim Shadys are just imitating So won't the real Slim Shady Please stand up"
   "Eyes of glass stare directly at death." "Fall to your knees, and bow to the Phantom Lord." "Fight fire with Fire, bursting with fear." "Fight fire with fire, the ending is near."
   "For now you've got some company." "Freezing, can't move at all" "From deep sleep I have broken away." "Frozen soul, frozen down to the core." "Eye for eye, tooth for tooth, hand for hand, foot for foot."
@@ -209,18 +209,18 @@ set kickms {
   "Now there's nothing you can do." "Now you've got the fight of your life." "Nuclear warfare shall lay us to rest." "Oops, I did it again" "Why tha fuck were you still here!!!???" "Nope - no wrong button" "You really wanted it, right?"
   "You're falling in a bottomless pit of loneliness" "See you in hell" "So gather round your warriors now and saddle up your steeds." "Sound is ripping through your ears." "Take a look to the sky just before you die."
   "Pimp your brain" "Mr. Mighty ass has left tha building!!!!" "Relaxation is tha key for staying in this chan" "Goodbye ass face... YES... ASS FACE!!!" "Here you are... found ya!!!!" "Sorry, but you are dismissed"
-  "You must have been an ass in your other life!" "Get of my face ASSHOLE!!!" "Hello, Hello...No Answer!!!" "Excuse me...I´d like to ASS you a few questions!!!" "Pissing me off is one of your skills"
-  "You really don´t belong here!!! Fuck off!!!" "You're not welcome here" "Ui Ui...What a kick...100% done!!!" "Don´t fuck with me... Get out sucker!!!" "Mess with the best...get kicked like the rest!!!"
-  "Are you real??? No....I think not!!! I´m sure!!!" "ah...ahh...ahhh...bahHAHhahHAHhahahHAHhah...Got kicked!!!" "Mode +q... Means QUIET!" "Well well well... Nasty nasty boy... Fuck off"
-  "Go and check http://www.microsoft.com... Lhamer..." "It´s for ppl like you they invented tha word KICK..." "Just relax and come back in a week..." "LAAHAHA LHAHAHAHAH LAAHAHAHAHAH... Fuck off... Leave the planet!!!"
-  "Die with a fuckin brain tumour..." "Don't fuck with me... Get out sucker!!!" "I advise you to go and hide yourself somewhere..." "There are many things you should think about... IRC isn´t one of those..."
-  "Jerky assholes like you... should go and... well... fuck you" "Guess what I´m thinking about? --- The best way to not seing you anymore..." "Guess who's back! back again!!! :)"
+  "You must have been an ass in your other life!" "Get of my face ASSHOLE!!!" "Hello, Hello...No Answer!!!" "Excuse me...IÂ´d like to ASS you a few questions!!!" "Pissing me off is one of your skills"
+  "You really donÂ´t belong here!!! Fuck off!!!" "You're not welcome here" "Ui Ui...What a kick...100% done!!!" "DonÂ´t fuck with me... Get out sucker!!!" "Mess with the best...get kicked like the rest!!!"
+  "Are you real??? No....I think not!!! IÂ´m sure!!!" "ah...ahh...ahhh...bahHAHhahHAHhahahHAHhah...Got kicked!!!" "Mode +q... Means QUIET!" "Well well well... Nasty nasty boy... Fuck off"
+  "Go and check http://www.microsoft.com... Lhamer..." "ItÂ´s for ppl like you they invented tha word KICK..." "Just relax and come back in a week..." "LAAHAHA LHAHAHAHAH LAAHAHAHAHAH... Fuck off... Leave the planet!!!"
+  "Die with a fuckin brain tumour..." "Don't fuck with me... Get out sucker!!!" "I advise you to go and hide yourself somewhere..." "There are many things you should think about... IRC isnÂ´t one of those..."
+  "Jerky assholes like you... should go and... well... fuck you" "Guess what IÂ´m thinking about? --- The best way to not seing you anymore..." "Guess who's back! back again!!! :)"
   "Guilty as charged, but damnit it aint right!" "Hear the Cry of war." "What doesn't kill you, makes you stronger" "Have you considered suing your brains for non-support?" "I bet your brain feels as good as new, seeing that you've never used it."
   "Keep talking, someday you'll say something intelligent." "There is no vaccine against stupidity." "Since the speed of light is faster than the speed of sound, is that why some people appear to be bright until you hear them speak?"
   "Go away!" "I love pressing this button" "Go play leapfrog with a unicorn" "Where do you wanna go today? Out... Ok!" "I rather want you to stay at teletubbies.com" "Yes, I have OP ;)" "You didn't understand any of this."
   "Get lost!" "You just laughed, ha ha, bitch." "Don't get lost in thought, you'll be a total stranger there." "If you said what you thought, you'd be speechless." "I wish I had a lower I.Q. so that I could enjoy your company."
-  "I'm not going to get into a battle of wits with you, I never attack anyone who's unarmed." "It's too bad stupidity isn't painful." "I’d explain it to you, but I don’t have any crayons with me."
-  "Are you $always this stupid, or are you making a special effort today?" "Do we have a learning disability here?" "I see no sign of intelligence anywhere..." "â”Œâˆ©â”(â—£_â—¢)â”Œâˆ©â”"
+  "I'm not going to get into a battle of wits with you, I never attack anyone who's unarmed." "It's too bad stupidity isn't painful." "IÂ’d explain it to you, but I donÂ’t have any crayons with me."
+  "Are you $always this stupid, or are you making a special effort today?" "Do we have a learning disability here?" "I see no sign of intelligence anywhere..." "Ã¢Â”ÂŒÃ¢ÂˆÂ©Ã¢Â”Â(Ã¢Â—Â£_Ã¢Â—Â¢)Ã¢Â”ÂŒÃ¢ÂˆÂ©Ã¢Â”Â"
   "I see dumb people... they're everywhere. They chat in IRC like everyone else. They don't even know that they're dumb." "A guy with your IQ should have a low voice too!" "Any similarity between you and a human is purely coincidental!"
   "Are you $always so stupid or is today a special occasion?" "As an outsider, what do you think of the human race?" "I'd like to kick you in the teeth, but why should I improve your looks?"
   "At least there's one thing good at your body. It isn't ugly as your face!" "Brains aren't everything. In fact, in your case they're nothing!" "Careful now, don't let your brains go to your head!"
@@ -234,10 +234,10 @@ set kickms {
   "How would you like to feel the way you look?" "Hi! I'm a human being! What are you?" "I can't talk to you right now; tell me, where will you be in ten years?" "I don't want you to turn the other cheek. It's just as ugly."
   "I don't know who you are, but whatever it is, i'm sure everyone will agree with me." "I don't know what makes you so stupid, but it really works!" "I could make a monkey out of you, but why should I take all the credit?"
   "I can't seem to remember your name, and please don't help me!" "I don't even like the people you're trying to imitate!(if you are at all!)" "I bet you have a loud bark!" "I know you were born silly, but why did you have a relapse?"
-  "I know you're a self-made man. It's nice of you to take the blame!" "I know you're not as stupid as you look. Nobody could be!" "I've seen people like you, but I had to pay admission!" "I’d explain it to you, but I don’t have any crayons with me"
+  "I know you're a self-made man. It's nice of you to take the blame!" "I know you're not as stupid as you look. Nobody could be!" "I've seen people like you, but I had to pay admission!" "IÂ’d explain it to you, but I donÂ’t have any crayons with me"
   "Her lips suck forth / see where it flies" "It's been nice knowing you.. well actually, it hasn't" "Support Dan Quayle for President!" "This random kick message was censored by popular request" "And quoth the raven Nevermore"
   "POP goes the weasel..." "Trying to establish a new kick record..." "Look, no more lamer ^^" "There's the exit, learn it well" "This relationship just isn't going to work out" "The op is $always right" "You are frightening our customers, we must ask you to leave"
-  "Random Kick Message #13" "Excuse me...I'd like to ASS you a few questions!!!" "Excessive lameness deteçted" "Shhh... Be vewy vewy qwiet... I'm hunting lamers..." "My foot itches... ahh... much better..." "Silly customer, you cannot harm the Twinkie!"
+  "Random Kick Message #13" "Excuse me...I'd like to ASS you a few questions!!!" "Excessive lameness deteÃ§ted" "Shhh... Be vewy vewy qwiet... I'm hunting lamers..." "My foot itches... ahh... much better..." "Silly customer, you cannot harm the Twinkie!"
   "Would you like fries with that?" "P.S. This doesn't mean we can't be friends" "If you have to ask, you'll never know" "This kick was sponsored in part by Microsoft Combat Boots" "It must be a monday... -sigh-"
   "Lamer removal successful!" "Oh! Oh! Kick me again!" "That's gotta hurt!" "The fist of terrors breaking through." "Boot to the head!" "The Phantom Lord has NEVER failed." "It's for ppl like you they invented tha word KICK..."
   "It's not that I hate you, its just.. that I dont like you" "It's the beginning of the end." "Its the last time you will!" "Anger is a tool, only for one's opponents" "Error processing request, please try again"
@@ -246,7 +246,7 @@ set kickms {
   "Emptiness is filling me, to the point of agony." "Enough for today rookie" "Everybody be cool, YOU - be cool" "Don't let the door hit you on your way out" "I'll see you in my office tomorrow at noon" "*snap* *crackle* *pop*" "Why me?"
   "Waste your time wherever you want, but not here" "Why not?" "*bang bang* you're dead" "Violence is never a solution, but it can be entertaining" "Thanks for your visit" "Thank you for NOT smoking!" "I recommend you to see a psychologist."
   "I wonder what this button does?" "Im tired of your company. Begone!" "Lame and fake - that's you" "I know you like it when I do this" "IIII can't HEAAAAAAAR you!" "Talk to the foot!" "Testing... Worked." "Are we having fun yet?"
-  "I tire of your company. Begone!" "Insufficient maturity deteçted" "Leather and metal are our uniforms, protecting what we are." "Look behind you, a three-headed monkey!" "My channel, my rules" "No Homers" "I would ask you to leave, but why, when I can force you?"
+  "I tire of your company. Begone!" "Insufficient maturity deteÃ§ted" "Leather and metal are our uniforms, protecting what we are." "Look behind you, a three-headed monkey!" "My channel, my rules" "No Homers" "I would ask you to leave, but why, when I can force you?"
 }
 
 set msgcoms { "op" "deop" "voice" "devoice" "join" "part" "chan" "kick" "kickban" "ban" "auth" "passwd" "invite" "owner" "admin" "master" "friend" "chattr" "cycle" "access" "tsunami" "rehash" "reset" "identify" "server" "deluser" "die" "restart" "ignore" }
@@ -3304,15 +3304,15 @@ proc chkspam {chan} {
         if {[isop $botnick $chan]} {
           set bannick($x) "$mhost"
           if {$invme($mhost) == "autojoin msg"} {
-            if {![isvoice $x $chan]} { putsrv "KICK $chan $x :[lgrnd] 4!14spam4!14 frøm 4$mhost 14$invme($mhost) 4r14emote 4o14ff [banmsg]" }
-          }                          { putsrv "KICK $chan $x :[lgrnd] 4!14spam4!14 frøm 4$mhost 14$invme($mhost) [banmsg]" }
+            if {![isvoice $x $chan]} { putsrv "KICK $chan $x :[lgrnd] 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) 4r14emote 4o14ff [banmsg]" }
+          }                          { putsrv "KICK $chan $x :[lgrnd] 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) [banmsg]" }
           } {
           foreach c [chanlist $chan f] {
             if {[isop $c $chan]} {
               if {$invme($mhost) == "autojoin msg"} {
 				  putlog "$notc report $x $invme($mhost) in $chan to $c"
-				  set sendspam "!kick [zip "$chan $x $notc 4!14spam4!14 frøm 4$mhost 14$invme($mhost) 4r14emote 4o14ff 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam"
-			  } { set sendspam "!kick [zip "$chan $x $notc 4!14spam4!14 frøm 4$mhost 14$invme($mhost) 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" ; putlog "$notc report $x $invme($mhost) in $chan to $c" }
+				  set sendspam "!kick [zip "$chan $x $notc 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) 4r14emote 4o14ff 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam"
+			  } { set sendspam "!kick [zip "$chan $x $notc 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" ; putlog "$notc report $x $invme($mhost) in $chan to $c" }
 } } } } } }
 catch {unset invme($mhost)}
 }
@@ -3463,7 +3463,7 @@ putsrv "PRIVMSG $chan :[rand_loser $nick] $nick \[+d or +k\]"
   if {[matchattr $cflag J]} {
     if {[info exists ismaskhost]} {
       if {![isutimer "reset_host"]} { utimer 10 reset_host } ; set chkhost [maskhost "*!*$mhost"]
-      if {![info exists jfhost($chkhost$chan)]} { set jfhost($chkhost$chan) 1 } { incr jfhost($chkhost$chan) ; if {$jfhost($chkhost$chan) == 5} { set bannick($nick) $chkhost ; putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14fLood anticipated frøm 4$chkhost [banmsg]" ; return 0 } }
+      if {![info exists jfhost($chkhost$chan)]} { set jfhost($chkhost$chan) 1 } { incr jfhost($chkhost$chan) ; if {$jfhost($chkhost$chan) == 5} { set bannick($nick) $chkhost ; putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14fLood anticipated frÃ¸m 4$chkhost [banmsg]" ; return 0 } }
     }
     if {![isutimer "jc $chan"]} { utimer 3 [list jc $chan] ; set massjoin($chan) 1
       } {
@@ -3493,18 +3493,18 @@ putsrv "PRIVMSG $chan :[rand_loser $nick] $nick \[+d or +k\]"
   if {[info exists ex_flood($mhost)]} {
     putlog "$notc $ex_flood($mhost) exist"
     set bannick($nick) "$uhost"
-    if {$ex_flood($mhost) == 0} { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 4!14lamer4! 4akill14 frøm 4$mhost14 on last quit [banmsg]" } }
+    if {$ex_flood($mhost) == 0} { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 4!14lamer4! 4akill14 frÃ¸m 4$mhost14 on last quit [banmsg]" } }
       } elseif {$ex_flood($mhost) == 5} { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 4!14lamer4! 4excess flood14 on last quit done by $exflood($mhost) [banmsg]" } }
       } elseif {$ex_flood($mhost) == 2} { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 4!14lamer4! 4invite14 on quit msg done by $exflood($mhost) [banmsg]" } }
       	  } elseif {$ex_flood($mhost) == 3} { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 4!14lamer4! 4invite14 on part msg done by $exflood($mhost) [banmsg]" } }
       	  } elseif {$ex_flood($mhost) == 4} {
-      if {![matchattr $cflag M]} { puthlp "KICK $chan $nick :$notc 4!14lamer4! 4joinpart14 frøm 4$mhost14 less than4 [getuser $cflag XTRA "JP"]14 2nd [banmsg]"
+      if {![matchattr $cflag M]} { puthlp "KICK $chan $nick :$notc 4!14lamer4! 4joinpart14 frÃ¸m 4$mhost14 less than4 [getuser $cflag XTRA "JP"]14 2nd [banmsg]"
       } { if {![string match "*k*" [getchanmode $chan]]} { putserv "mode $chan -k+b 14j4.o.i.n.p.a.r.t $bannick($nick)" } { putserv "mode $chan +b $bannick($nick)" } }
     } else { foreach x [channels] { if {[onchan $nick $x] && [isop $botnick $x]} { putsrv "KICK $x $nick :[lgrnd] 14badwo4rd14 on quit or part msg 04$ex_flood($mhost)14 done by $exflood($mhost) [banmsg]" } } }
     utimer 10 "unset ex_flood($mhost)"
     return 0
   }
-  if {[info exists invme($mhost)]} { set bannick($nick) "$uhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14spam4!14 frøm 4$mhost 14$invme($mhost) [banmsg]" ; unset invme($mhost) ; return 0 }
+  if {[info exists invme($mhost)]} { set bannick($nick) "$uhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) [banmsg]" ; unset invme($mhost) ; return 0 }
   if {[string match "*+greet*" $cinfo]} { badnick_chk $nick $uhost $hand $chan }
   if {[string match "*+trojan*" $cinfo]} { set bmask_check $nick!$uhost ; trojanchk $nick $bmask_check $uhost $chan }
   if {[string match "*+echox*" $cinfo]} { echoxchk $nick $uhost $hand $chan }
@@ -3520,7 +3520,7 @@ putsrv "PRIVMSG $chan :[rand_loser $nick] $nick \[+d or +k\]"
         if {[isop $knick $chan]} { return 0 }
         if {[isvoice $knick $chan]} { if {![info exists kops]} { return 0 } }
         set counter [incr counter]
-        if {$counter > $maxclone} { set bannick($nick) "$mhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14found $counter 4clone14 frøm 4$mhost14 max4 $maxclone14 wait a moment! 4banned14: 3 minutes [banmsg]" ; return 0 }
+        if {$counter > $maxclone} { set bannick($nick) "$mhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14found $counter 4clone14 frÃ¸m 4$mhost14 max4 $maxclone14 wait a moment! 4banned14: 3 minutes [banmsg]" ; return 0 }
   } } }
   set chan [string toupper $chan]
   if {[matchattr $cflag P]} { if {![info exists jpnick($nick)]} { set jpnick($nick) "1" ; utimer [getuser $cflag XTRA "JP"] [list munset $nick] } }
@@ -3574,11 +3574,11 @@ proc sign_deauth {unick uhost hand chan rest} {
   if {![isop $botnick $chan]} { return 0 }
   set mhost "@[lindex [split $uhost @] 1]"
   if {![string match "Quit:*" $rest]} {
-   if {[string match "*AKILL ID*" $rest] && ![string match "Quit:*" $rest]} { set ex_flood($mhost) "0" ; putlog "$notc AKILL frøm $unick $uhost" 
-   } elseif {[string match "*Excess Flood*" $rest]} { if {[matchattr $cflag S]} { set ex_flood($mhost) "5" ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Excess Flood frøm exflood($mhost)" } }
+   if {[string match "*AKILL ID*" $rest] && ![string match "Quit:*" $rest]} { set ex_flood($mhost) "0" ; putlog "$notc AKILL frÃ¸m $unick $uhost" 
+   } elseif {[string match "*Excess Flood*" $rest]} { if {[matchattr $cflag S]} { set ex_flood($mhost) "5" ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Excess Flood frÃ¸m exflood($mhost)" } }
   } elseif {[string match "* #*" $rest] && ![string match "*##*" $rest]} { foreach x [channels] { set chksiton [string tolower $x] ; if {[string match "*$chksiton*" [string tolower $rest]]} { return 0 } }
-  set ex_flood($mhost) "2" ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Invite/advert frøm $unick $uhost -> $rest"
-  } else { foreach badword [string tolower $badwords] { if {[string match *$badword* [uncolor [netext [string tolower $rest]]]]} { set ex_flood($mhost) $badword ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Badword frøm $exflood($mhost) -> $badword" } } }
+  set ex_flood($mhost) "2" ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Invite/advert frÃ¸m $unick $uhost -> $rest"
+  } else { foreach badword [string tolower $badwords] { if {[string match *$badword* [uncolor [netext [string tolower $rest]]]]} { set ex_flood($mhost) $badword ; set exflood($mhost) "4$unick14(4$uhost14)" ; putlog "$notc Badword frÃ¸m $exflood($mhost) -> $badword" } } }
  return 0
 }
 bind part - * part_deauth
@@ -3608,8 +3608,8 @@ proc part_deauth {nick uhost hand chan {msg ""}} {
     if {[info exists msg]} {
       if {[string match "*#*" $msg] && ![string match "*##*" $msg]} {
         foreach x [channels] { set chksiton [string tolower $x] ; if {[string match "*$chksiton*" [string tolower $msg]]} { return 0 } }
-        putlog "$notc Invite/advert frøm $nick!$uhost -> $msg" ; set ex_flood($mhost) "3" ; set exflood($mhost) "4$nick14(4$uhost14)"
-      } { foreach badword [string tolower $badwords] { if {[string match *$badword* [netext [string tolower $msg]]]} { set ex_flood($mhost) $badword ; set exflood($mhost) "4$nick14(4$uhost14)" ; putlog "$notc Badword frøm $nick $uhost -> $msg" } } }
+        putlog "$notc Invite/advert frÃ¸m $nick!$uhost -> $msg" ; set ex_flood($mhost) "3" ; set exflood($mhost) "4$nick14(4$uhost14)"
+      } { foreach badword [string tolower $badwords] { if {[string match *$badword* [netext [string tolower $msg]]]} { set ex_flood($mhost) $badword ; set exflood($mhost) "4$nick14(4$uhost14)" ; putlog "$notc Badword frÃ¸m $nick $uhost -> $msg" } } }
   set resume "T"
   if {[string match "*-greet*" [channel info $chan]]} { set resume "F" }
   if {![isop $botnick $chan]} { set resume "F" }
@@ -3630,7 +3630,7 @@ putlog "part flood $nick $mhost in $chan msg-> [string length $msg] real-> [stri
   } }
   }
     if {[info exists msg]} { if {$msg != ""} { return 0 } }
-    if {[matchattr $cflag P]} { set chan [string toupper $chan] ; if {[info exists jpnick($nick)]} { set ex_flood($mhost) "4" ; set exflood($mhost) "4$nick14(4$uhost14)" ; putlog "$notc Forbiden Part/Quit frøm $nick $uhost" } }
+    if {[matchattr $cflag P]} { set chan [string toupper $chan] ; if {[info exists jpnick($nick)]} { set ex_flood($mhost) "4" ; set exflood($mhost) "4$nick14(4$uhost14)" ; putlog "$notc Forbiden Part/Quit frÃ¸m $nick $uhost" } }
   }
   return 0
 }
@@ -3761,7 +3761,7 @@ proc bc_flood {nick uhost} {
   while {$i >= 1} { set bc_flood_array($i) $bc_flood_array([expr $i - 1]) ; incr i -1 }
   set bc_flood_array(0) [unixtime]
   if {[expr [unixtime] - $bc_flood_array([expr $bc_flood_num - 1])] <= $bc_flood_time} {
-    putlog "bchan: Flood detected frøm $nick."
+    putlog "bchan: Flood detected frÃ¸m $nick."
     newignore [join [maskhost *!*[string trimleft $uhost ~]]] bchan flood 2
     return  1
   } {return 0}
@@ -3976,7 +3976,7 @@ proc notc_prot {nick uhost hand text {dest ""}} {
         if {$quick == "1" && ![info exists is_m($dest)]} { putqck "KICK $dest $nick :$notc 4!14alert4! 14twice 4notice14 abused [banmsg]" } { putsrv "KICK $dest $nick :[lgrnd] 4!14alert4! 14twice 4notice14 abused [banmsg]" }
         } elseif {$notc_chn($dest) >= 3} {
         if {[info exists ismaskhost]} { set bannick($nick) "$uhost" }
-        if {$quick == "1" && ![info exists is_m($dest)]} { putqck "KICK $dest $nick :$notm 4!14lamer4! 14to much 4violence14 frøm this I.S.P [banmsg]" } { putsrv "KICK $dest $nick :[lgrnd] 4!14lamer4! 14to much 4violence14 frøm this I.S.P [banmsg]" }
+        if {$quick == "1" && ![info exists is_m($dest)]} { putqck "KICK $dest $nick :$notm 4!14lamer4! 14to much 4violence14 frÃ¸m this I.S.P [banmsg]" } { putsrv "KICK $dest $nick :[lgrnd] 4!14lamer4! 14to much 4violence14 frÃ¸m this I.S.P [banmsg]" }
       }
       return 0
     }
@@ -4010,7 +4010,7 @@ proc msg_prot {unick uhost hand text} {
           set bannick($virus_nick) $uhost
           putsrv "KICK $x $virus_nick :[lgrnd] 4!14spam4!14 i hate 4$virus_file 14virus [banmsg]"
           } else {
-          foreach c [chanlist $x f] { if {[isop $c $x]} { putlog "$notc RePORTED ViRUS FRoM <<$nick$x>> To #$c#" ; set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 i hate 4$virus_file 14virus 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
+          foreach c [chanlist $x f] { if {[isop $c $x]} { putlog "$notc RePORTED ViRUS FRoM <<$nick$x>> To #$c#" ; set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 i hate 4$virus_file 14virus 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
     } } }
     return 0
   }
@@ -4068,9 +4068,9 @@ proc msg_prot {unick uhost hand text} {
       } {
       if {[info exists commandkc($unick)]} {
         set bannick($nick) "$uhost" 
-        foreach x [channels] { if {[onchan $unick $x] && [isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14lamer4! 14dønt blame me, you've been warned [banmsg]" } }
+        foreach x [channels] { if {[onchan $unick $x] && [isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14lamer4! 14dÃ¸nt blame me, you've been warned [banmsg]" } }
         unset commandkc($unick) ; return 0
-        } else { foreach x [channels] { if {[onchan $unick $x] && [isop $botnick $x]} { putsrv "KICK $x $unick :[lgrnd] 4!14alert4! 14dønt you dare, 1st warn [banmsg]" } } 
+        } else { foreach x [channels] { if {[onchan $unick $x] && [isop $botnick $x]} { putsrv "KICK $x $unick :[lgrnd] 4!14alert4! 14dÃ¸nt you dare, 1st warn [banmsg]" } } 
         set commandkc($unick) 1 ; return 0
   } } }
   if {[string match "*auth*" $text] || [string match "*[string tolower $notb]*" [string tolower $text]]} { return 0 }
@@ -4081,7 +4081,7 @@ proc msg_prot {unick uhost hand text} {
       if {[onchan $unick $x]} {
         if {[isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14spam4!14 i hate 4decode [banmsg]"
           } {
-          foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 i hate 4decode 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
+          foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 i hate 4decode 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } }
     } } }
     set invme($mhost) "decode" ; return 0
   }
@@ -4089,7 +4089,7 @@ proc msg_prot {unick uhost hand text} {
     foreach x [channels] {
       if {[onchan $unick $x]} {
         if {[isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14spam4!14 private 4message 14inviter [banmsg]" 
-        } { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $unick [lgrnd] 4!14spam4!14 private 4message 14inviter 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } }
+        } { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $unick [lgrnd] 4!14spam4!14 private 4message 14inviter 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } }
         } {
         set banmask "[string range $uhost [string first "@" $uhost] end]"
         if {$banmask != "*!*@*" && $banmask != "*"} {
@@ -4100,9 +4100,9 @@ proc msg_prot {unick uhost hand text} {
                 if {[isop $botnick $x]} {
                   if {[matchattr $c f]} { continue }
                   set bannick($c) [getchanhost $c $x]
-                  putsrv "KICK $x $c :[lgrnd] 4!14relay4! 14frøm 4$unick14(4$uhost14) 14invite [banmsg]"
+                  putsrv "KICK $x $c :[lgrnd] 4!14relay4! 14frÃ¸m 4$unick14(4$uhost14) 14invite [banmsg]"
                   } {
-                  foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4! 14frøm 4$unick14(4$uhost14) 14invite 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } }
+                  foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4! 14frÃ¸m 4$unick14(4$uhost14) 14invite 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } }
     } } } } } } }
     set invme($mhost) "invite" ; return 0
   }
@@ -4112,8 +4112,8 @@ proc msg_prot {unick uhost hand text} {
         if {[onchan $unick $x]} {
           if {[isop $botnick $x]} {
             set bannick($unick) "$uhost"
-            putsrv "KICK $x $unick :[lgrnd] 14badwo4rd 4private message  14match frøm 4$badword [banmsg]"
-          } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 14badwo4rd 4private message 14match frøm 4$badword 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
+            putsrv "KICK $x $unick :[lgrnd] 14badwo4rd 4private message  14match frÃ¸m 4$badword [banmsg]"
+          } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 14badwo4rd 4private message 14match frÃ¸m 4$badword 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
   } }
   return 0
   } }
@@ -4123,8 +4123,8 @@ proc msg_prot {unick uhost hand text} {
         if {[onchan $unick $x]} {
           if {[isop $botnick $x]} {
             set bannick($unick) "$uhost"
-            putsrv "KICK $x $unick :[lgrnd] 4!14lamer4! 4command attempting 14match frøm 4$msgcom [banmsg]"
-          } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14lamer4! 4command attempting 14match frøm 4$msgcom 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
+            putsrv "KICK $x $unick :[lgrnd] 4!14lamer4! 4command attempting 14match frÃ¸m 4$msgcom [banmsg]"
+          } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14lamer4! 4command attempting 14match frÃ¸m 4$msgcom 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
   } }
   return 0
   } }
@@ -4133,8 +4133,8 @@ proc msg_prot {unick uhost hand text} {
       if {[string match "*dal.net*" $text] || [string match "*wwww*" $text] || [string match "*www..*" $text] || [string match "*dns*" $text] || [string match "*ip*" $text]} { return 0 }
       foreach x [channels] {
         if {[onchan $unick $x]} {
-          if {[botisop $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14spam4!14 private advertise 4match 14frøm 4$advword [banmsg]" 
-		  } { foreach s [chanlist $x f] { if {[isop $s $x]} { putlog "$unick$s$x" ; set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 private advertise 4match 14frøm 4$advword 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
+          if {[botisop $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14spam4!14 private advertise 4match 14frÃ¸m 4$advword [banmsg]" 
+		  } { foreach s [chanlist $x f] { if {[isop $s $x]} { putlog "$unick$s$x" ; set sendspam "!kick [zip "$x $unick $notc 4!14spam4!14 private advertise 4match 14frÃ¸m 4$advword 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
           } {
           set banmask "[string range $uhost [string first "@" $uhost] end]"
           if {$banmask != "*!*@*" && $banmask != "*"} {
@@ -4143,9 +4143,9 @@ proc msg_prot {unick uhost hand text} {
               if {$banmask == $nickhost} {
                 if {[matchattr $c f]} { continue }
                 if {$c != $botnick} {
-                  if {[isop $botnick $x]} { set bannick($c) "[getchanhost $c $x]" ; putsrv "KICK $x $c :[lgrnd] 4!14relay4!14 private 4advertise 14frøm 4$unick14(4$uhost14) 14match 4$advword [banmsg]"
+                  if {[isop $botnick $x]} { set bannick($c) "[getchanhost $c $x]" ; putsrv "KICK $x $c :[lgrnd] 4!14relay4!14 private 4advertise 14frÃ¸m 4$unick14(4$uhost14) 14match 4$advword [banmsg]"
                     } {
-                    foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4!14 private 4advertise 14frøm 4$unick14(4$uhost14) 14match 4$advword 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } }
+                    foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4!14 private 4advertise 14frÃ¸m 4$unick14(4$uhost14) 14match 4$advword 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } }
       } } } } } } }
       set invme($mhost) "advertise" ; return 0
       } }
@@ -4159,8 +4159,8 @@ proc msg_prot {unick uhost hand text} {
       if {[info exists ismaskhost]} { setignore [maskhost "*!*$mhost"] "MaZz MSg" 120 } { setignore "*!*$mhost" "MaZz MSg" 120 }
       foreach x [channels] {
         if {[onchan $unick $x]} {
-          if {[isop $botnick $x]} { if {![matchattr $unick f] || $unick == $botnick} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14alert4! 14flood4 msg 4frøm 4$mhost [banmsg]" }
-         } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14alert4! 14flood4 msg 4frøm 4$mhost 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
+          if {[isop $botnick $x]} { if {![matchattr $unick f] || $unick == $botnick} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14alert4! 14flood4 msg 4frÃ¸m 4$mhost [banmsg]" }
+         } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick $notc 4!14alert4! 14flood4 msg 4frÃ¸m 4$mhost 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
         } }
 	  return 0
     } }
@@ -4173,11 +4173,11 @@ proc msg_prot {unick uhost hand text} {
     if {[info exists ismaskhost]} { setignore [maskhost "*!*$mhost"] "TsunamI MSg" 120 } { setignore "*!*$mhost" "TsunamI MSg" 120 }
     foreach x [channels] {
       if {[onchan $unick $x]} {
-        if {[isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14tsunami4!14 msg frøm 4[string trimleft $uhost "~"] [banmsg]" 
+        if {[isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14tsunami4!14 msg frÃ¸m 4[string trimleft $uhost "~"] [banmsg]" 
         } { 
 		foreach s [chanlist $x f] { 
 		if {[isop $s $x]} {
-		 set sendspam "!kick [zip "$x $unick $notc 4!14tsunami4!14 msg frøm 4[string trimleft $uhost "~"] 14-repørt by4 $botnick-"]"
+		 set sendspam "!kick [zip "$x $unick $notc 4!14tsunami4!14 msg frÃ¸m 4[string trimleft $uhost "~"] 14-repÃ¸rt by4 $botnick-"]"
 		 putlog "msg $s in $x"
 		 putsrv "PRIVMSG $s :$sendspam" } 
 		} } } } 
@@ -4187,7 +4187,7 @@ proc msg_prot {unick uhost hand text} {
     foreach x [channels] {
       if {[onchan $unick $x]} {
         if {[isop $botnick $x]} { set bannick($unick) "$uhost" ; putsrv "KICK $x $unick :[lgrnd] 4!14spam4! 14private 4msg flood 14protection [banmsg]"
-        } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick [lgrnd] 4!14spam4! 14private 4msg flood 14protection 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
+        } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $unick [lgrnd] 4!14spam4! 14private 4msg flood 14protection 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } }
       } }
     if {![isutimer "LONGTEXT"]} { utimer 30 { putlog "LONGTEXT" } ; setignore "*!*@*" "*" 60
       puthlp "PRIVMSG $basechan :\001ACTION IncOmINg LoNg TexT MSg..! FRoM 14[unsix "$unick!$uhost"]\001"
@@ -4259,8 +4259,8 @@ proc prot:kick {nick uhost handle chan knick reason} {
     return 0
   }
   if {![isop $botnick $chan]} { return 0 }
-  if {$knick == $notb} { putserv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dønt kick 4$notb [banmsg]" ; set op_it($knick) 1 ; return 0 }
-  if {$knick == $alw} { putserv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dønt kick 4$alw [banmsg]" ; set op_it($knick) 1 ; return 0 }
+  if {$knick == $notb} { putserv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dÃ¸nt kick 4$notb [banmsg]" ; set op_it($knick) 1 ; return 0 }
+  if {$knick == $alw} { putserv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dÃ¸nt kick 4$alw [banmsg]" ; set op_it($knick) 1 ; return 0 }
   if {[matchattr $knick n]} { putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14admin 4kick14 protection [banmsg]" ; set op_it($knick) 1 ; return 0 }
   if {[matchattr $knick m]} { putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14master 4kick14 protection [banmsg]" ; set op_it($knick) 1 ; return 0 }
 }
@@ -4315,29 +4315,29 @@ proc ban_chk {nick uhost handle channel mchange bhost} {
       }
       if {$knick == $notb} {
         if {$nick != $botnick} {
-          putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt banned 4$notb [banmsg]"
+          putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt banned 4$notb [banmsg]"
           if {![string match "*k*" $cmode]} { putserv "mode $channel -kb 14$notb.14g4uard $bhost" } { putserv "mode $channel -b $bhost" } 
         } { if {![string match "*k*" $cmode]} { putserv "mode $channel -kb 14a4uto.14u4nban $bhost" } { putserv "mode $channel -b $bhost" } }
         return 1
       }
       if {$knick == $alw} {
         if {$nick != $botnick} {
-          putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt banned 4$alw [banmsg]"
+          putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt banned 4$alw [banmsg]"
           if {![string match "*k*" $cmode]} { putserv "mode $channel -kb 14$alw.14g4uard $bhost" } { putserv "mode $channel -b $bhost" }
           } {
           if {![string match "*k*" $cmode]} { putserv "mode $channel -kb 14a4uto.14u4nban $bhost" } { putserv "mode $channel -b $bhost" }
         }
         return 1
       }
-      if {[matchattr $knick n]} { if {$nick != $botnick} { set bannick($nick) $banmask ; putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt banned my admin 4$knick [banmsg]" } ; return 1 }
-      if {[matchattr $knick m]} { if {$nick != $botnick} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt banned my master 4$knick [banmsg]" } ; return 1 }
+      if {[matchattr $knick n]} { if {$nick != $botnick} { set bannick($nick) $banmask ; putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt banned my admin 4$knick [banmsg]" } ; return 1 }
+      if {[matchattr $knick m]} { if {$nick != $botnick} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt banned my master 4$knick [banmsg]" } ; return 1 }
       if {[matchattr $cflag E]} {
         if {$nick == $botnick} {
           set menforce [rand 4]
-          if {$menforce == 1} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14banned frøm 4[string trimleft $channel "#"] [banmsg]"
-            } elseif {$menforce == 2} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14match bans frøm 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
-            } elseif {$menforce == 3} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14filter bans frøm 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
-          } else { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14refused link frøm 4[string trimleft $channel "#"] [banmsg]" }
+          if {$menforce == 1} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14banned frÃ¸m 4[string trimleft $channel "#"] [banmsg]"
+            } elseif {$menforce == 2} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14match bans frÃ¸m 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
+            } elseif {$menforce == 3} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14filter bans frÃ¸m 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
+          } else { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14refused link frÃ¸m 4[string trimleft $channel "#"] [banmsg]" }
           } else {
           if {[matchattr $nick n]} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 4admin14 banned [banmsg]"
             } else {
@@ -4348,10 +4348,10 @@ proc ban_chk {nick uhost handle channel mchange bhost} {
               if {![matchattr $knick f]} {
                 set menforce [rand 5]
                 if {$menforce == 1} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14banned by 4@$nick [banmsg]"
-                  } elseif {$menforce == 2} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14match bans frøm 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
-                  } elseif {$menforce == 3} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14banned frøm 4[string trimleft $channel "#"] [banmsg]"
-                  } elseif {$menforce == 4} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14filter bans frøm 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
-                } else { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14refused link frøm 4[string trimleft $channel "#"] [banmsg]" }
+                  } elseif {$menforce == 2} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14match bans frÃ¸m 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
+                  } elseif {$menforce == 3} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14banned frÃ¸m 4[string trimleft $channel "#"] [banmsg]"
+                  } elseif {$menforce == 4} { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14filter bans frÃ¸m 4[string trimleft [unsix $bhost] "*!"] [banmsg]"
+                } else { putsrv "KICK $channel $knick :[lgrnd] 14forc4e 14refused link frÃ¸m 4[string trimleft $channel "#"] [banmsg]" }
   } } } } } } }
   return 0
 }
@@ -4455,11 +4455,11 @@ proc prot:deop {nick uhost handle channel mchange {opnick ""}} {
     if {$nick == "ChanServ" && [matchattr $opnick o]} { voiceq $channel $opnick ; return 0 }
     if {$nick == "ChanServ"} { set unop($opnick) "1" ; return 0 }
     if {[matchattr $nick f] || $nick == $botnick} { return 0 }
-    if {$opnick == $alw} { if {![info exists igflood($nick)]} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt de@p 4$alw [banmsg]" } ; opq $channel $opnick ; return 0 }
+    if {$opnick == $alw} { if {![info exists igflood($nick)]} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt de@p 4$alw [banmsg]" } ; opq $channel $opnick ; return 0 }
     if {[matchattr $opnick n]} { if {![info exists igflood($nick)]} { putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14admin 4de@p14 guard [banmsg]" ; opq $channel $opnick } ; return 0 }
     if {[matchattr $opnick m]} { if {![info exists igflood($nick)]} { putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14master 4de@p14 guard [banmsg]" ; opq $channel $opnick } ; return 0 }
     if {[matchattr $opnick o]} { opq $channel $opnick ; return 0 }
-    if {$opnick == $notb} { if {![info exists igflood($nick)]} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dønt de@p 4$notb [banmsg]" } ; opq $channel $opnick ; return 0 }
+    if {$opnick == $notb} { if {![info exists igflood($nick)]} { putserv "KICK $channel $nick :$notc 4!14alert4! 14dÃ¸nt de@p 4$notb [banmsg]" } ; opq $channel $opnick ; return 0 }
   }
 }
 proc unallowed {chan nick opnick} {
@@ -4563,7 +4563,7 @@ proc raw:swi_wi301 {from key arg} {
          if {[isop $nick $chan]} {
             set awaymessage [string trimleft [join [lrange [split $arg] 2 end]] :]
             putlog "Log $nick is Away : $awaymessage"
-            if {[string match "*t.¢*" [uncolor $awaymessage]]} { 
+            if {[string match "*t.Â¢*" [uncolor $awaymessage]]} { 
                putlog "!Log! PaSs This bOt"
                return 0 
             }
@@ -4752,15 +4752,15 @@ set tjidx 1
 proc trojankick {nick bmask_host chan} {
   global tjidx notc bannick botnick
   set bannick($nick) "$bmask_host"
-  if {$tjidx == 1} { putserv "KICK $chan $nick :$notc 14w324@14dref-d4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 2} { putserv "KICK $chan $nick :$notc 14Email-Worm.4Win3214.Drefir.f4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 3} { putserv "KICK $chan $nick :$notc 14w324@14drefir.D4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 4} { putserv "KICK $chan $nick :$notc 14w324@14drefir.E4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 5} { putserv "KICK $chan $nick :$notc 14w324@14drefir.F4/14trojan4/14ircworm deteçted [banmsg]"
+  if {$tjidx == 1} { putserv "KICK $chan $nick :$notc 14w324@14dref-d4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 2} { putserv "KICK $chan $nick :$notc 14Email-Worm.4Win3214.Drefir.f4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 3} { putserv "KICK $chan $nick :$notc 14w324@14drefir.D4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 4} { putserv "KICK $chan $nick :$notc 14w324@14drefir.E4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 5} { putserv "KICK $chan $nick :$notc 14w324@14drefir.F4/14trojan4/14ircworm deteÃ§ted [banmsg]"
     } elseif {$tjidx == 6} { putserv "KICK $chan $nick :$notc 14you're infected with IRC trojan virus. goto http://www.nohack.com for help [banmsg]"
-    } elseif {$tjidx == 7} { putserv "KICK $chan $nick :$notc 14w324@14drefir.worm.gen4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 8} { putserv "KICK $chan $nick :$notc 14w324@14drefir.f.worm4/14trojan4/14ircworm deteçted [banmsg]"
-    } elseif {$tjidx == 9} { putserv "KICK $chan $nick :$notc 14drefir.4f4/14trojan4/14ircworm deteçted [banmsg]"
+    } elseif {$tjidx == 7} { putserv "KICK $chan $nick :$notc 14w324@14drefir.worm.gen4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 8} { putserv "KICK $chan $nick :$notc 14w324@14drefir.f.worm4/14trojan4/14ircworm deteÃ§ted [banmsg]"
+    } elseif {$tjidx == 9} { putserv "KICK $chan $nick :$notc 14drefir.4f4/14trojan4/14ircworm deteÃ§ted [banmsg]"
     set tjidx 0
   }
   incr tjidx
@@ -5286,7 +5286,7 @@ set seenme(comments) {
   {\001ACTION slaps $nick *\001}
   {\001ACTION smackdown $nick *\001}
   {\001ACTION tabok $nick *plak*\001}
-  {\001ACTION toel² $nick *\001}
+  {\001ACTION toelÂ² $nick *\001}
   {\001ACTION keplak $nick *plak*\001}
   {\001ACTION sundut $nick *\001}
   {\001ACTION tendang $nick *\001}
@@ -5691,13 +5691,13 @@ putlog "tsunami from $nick $mhost in $chan"
   if {[string match "*!seen [string tolower $nick]*" [string tolower $text]]} { putsrv "KICK $chan $nick :[lgrnd] 4!14lamer4! 14go look in a 4mirror [banmsg]" ; return 0 }
   if {[string match "*#*" $text] && ![string match "*##*" $text] && ![string match "*# *" $text]} {
     foreach x [channels] { set chksiton [string tolower $x] ; if {[string match "*$chksiton*" [string tolower $text]]} { return } }
-    foreach seekchan $text { if {[string match "*#*" $seekchan]} { set bannick($nick) "$uhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14spam4! 14dønt 4invited14 match frøm 4$seekchan [banmsg]" } } 
+    foreach seekchan $text { if {[string match "*#*" $seekchan]} { set bannick($nick) "$uhost" ; putsrv "KICK $chan $nick :[lgrnd] 4!14spam4! 14dÃ¸nt 4invited14 match frÃ¸m 4$seekchan [banmsg]" } } 
   }
   foreach advword [string tolower $advwords] {
     if {[string match *$advword* [string tolower $text]]} {
       if {[string match "*dal.net*" $text] || [string match "*wwww*" $text] || [string match "*www..*" $text] || [string match "*dns*" $text] || [string match "!info *" $text] || [string match "!ip *" $text] || [string match "*seen*" $text] || [string match "*port*" $text] || [string match "*whois*" $text]} { return 0 }
       set bannick($nick) "$uhost"
-      putsrv "KICK $chan $nick :[lgrnd] 4!14spam4! 14dønt 4advertise14 in 4[string trimleft $chan "#"] 14match frøm 4$advword [banmsg]"
+      putsrv "KICK $chan $nick :[lgrnd] 4!14spam4! 14dÃ¸nt 4advertise14 in 4[string trimleft $chan "#"] 14match frÃ¸m 4$advword [banmsg]"
       return 0
   } }
   if {[matchattr $cflag R]} {
@@ -5706,7 +5706,7 @@ putlog "tsunami from $nick $mhost in $chan"
         if {![info exists repeat_person($mhost$chan)]} { set repeat_person($mhost$chan) 1 } { incr repeat_person($mhost$chan) }
         if {$repeat_person($mhost$chan) == [getuser $cflag XTRA "RPT"] && ![isop $nick $chan] && ![isvoice $nick $chan]}  {
           set bannick($nick) "$uhost"
-          putserv "KICK $chan $nick :$notc 14autøki4çk4 text repeat deteçted frøm 4$mhost 14max4 [getuser $cflag XTRA "RPT"] [banmsg]"
+          putserv "KICK $chan $nick :$notc 14autÃ¸ki4Ã§k4 text repeat deteÃ§ted frÃ¸m 4$mhost 14max4 [getuser $cflag XTRA "RPT"] [banmsg]"
           catch {unset repeat_person($mhost$chan)}
           catch {unset repeat_last($mhost$chan)}
           return 0
@@ -5737,7 +5737,7 @@ putlog "tsunami from $nick $mhost in $chan"
         return 0
       }
       set bannick($nick) "$uhost"
-      putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 42nd14 warn dønt used 4capslock14 exceed4 [getuser $cflag XTRA "CAPS"]% [banmsg]"
+      putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 42nd14 warn dÃ¸nt used 4capslock14 exceed4 [getuser $cflag XTRA "CAPS"]% [banmsg]"
       unset capsnick($nick)
 } } }
 proc isupper {letter} { set caps {A B C D E F G H I J K L M N O P Q R S T U V W X Y Z} ; if {[lsearch -exact $caps $letter] > -1} { return 1 } else { return 0 } }
@@ -5749,7 +5749,7 @@ proc isbad {nick uhost chan arg} {
   foreach badword [string tolower $badwords] {
     if {([string match "$badword*" $arg] || [string match "*$badword *" $arg] || [string match "* $badword*" $arg]) && ![isop $nick $chan] && ![isvoice $nick $chan]} {   
       set bannick($nick) "$uhost"
-      putserv "KICK $chan $nick :$notc 14badwo4rd14 match frøm 4$badword [banmsg]"
+      putserv "KICK $chan $nick :$notc 14badwo4rd14 match frÃ¸m 4$badword [banmsg]"
       return 1
     } }
   set isbad 0
@@ -5771,7 +5771,7 @@ proc topic_chk {nick uhost handle chan topic} {
   if {$topic == [getuser $cflag XTRA "TOPIC"]} { return 0 }
   if {![string match "*dal.net*" $nick]} {
     set bannick($nick) "$uhost"
-    putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dønt changing the 4topic [banmsg]"
+    putsrv "KICK $chan $nick :[lgrnd] 4!14alert4! 14dÃ¸nt changing the 4topic [banmsg]"
   }
   puthlp "topic $chan :[getuser $cflag XTRA "TOPIC"]"
   return 0
@@ -5787,16 +5787,16 @@ proc flood_chk {nick host handle type channel} {
   set mhost "@[lindex [split $host @] 1]"
   if {[string index $channel 0] == "#"} { if {![isop $botnick $channel]} { putlog "$notc FlooD <<$nick>> BoT NoT $channel @P !IgNoREd!" ; return 1 } }
   set type [string tolower $type]
-  if {$type == "join"} { set bannick($nick) "$mhost" ; putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4join14 frøm 4$mhost [banmsg]" }
+  if {$type == "join"} { set bannick($nick) "$mhost" ; putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4join14 frÃ¸m 4$mhost [banmsg]" }
   if {$type == "ctcp"} {
     if {![info exists kops]} { if {[isop $nick $channel] || [isvoice $nick $channel]} { return 1 } }
     set bannick($nick) "$host"
-    if {$quick == "1"} { putqck "KICK $channel $nick :$notm 4!14alert4! 14exceed max 4ctcp14 frøm 4$mhost [banmsg]" } else { putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4ctcp14 frøm 4$mhost [banmsg]" }
+    if {$quick == "1"} { putqck "KICK $channel $nick :$notm 4!14alert4! 14exceed max 4ctcp14 frÃ¸m 4$mhost [banmsg]" } else { putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4ctcp14 frÃ¸m 4$mhost [banmsg]" }
   }
   if {$type == "pub"} {
     if {![info exists kops]} { if {[isop $nick $channel] || [isvoice $nick $channel]} { return 1 } }
     set bannick($nick) "$host"
-    putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4lines14 frøm 4$mhost [banmsg]"
+    putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14exceed max 4lines14 frÃ¸m 4$mhost [banmsg]"
     return 1
   }
   if {$type == "nick"} {
@@ -5807,25 +5807,25 @@ proc flood_chk {nick host handle type channel} {
       } {
       catch {unset floodnick($mhost)}
       set bannick($nick) "$host"
-      putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14twice exceed 4nick14 frøm 4$mhost [banmsg]"
+      putsrv "KICK $channel $nick :[lgrnd] 4!14alert4! 14twice exceed 4nick14 frÃ¸m 4$mhost [banmsg]"
     } }
   if {$type == "deop"} {
     if {![info exists flooddeop($nick)]} {
       set flooddeop($nick) 1
-      putserv "KICK $channel $nick :$notc 4!14alert4! 14exceed max 4de@p14 frøm 4$mhost [banmsg]"
+      putserv "KICK $channel $nick :$notc 4!14alert4! 14exceed max 4de@p14 frÃ¸m 4$mhost [banmsg]"
       } {
       catch {unset flooddeop($nick)}
       set bannick($nick) "$host"
-      putserv "KICK $channel $nick :$notc 4!14alert4! 14twice exceed max 4de@p14 frøm 4$mhost [banmsg]"
+      putserv "KICK $channel $nick :$notc 4!14alert4! 14twice exceed max 4de@p14 frÃ¸m 4$mhost [banmsg]"
     } }
   if {$type == "kick"} {
     if {![info exists floodkick($nick)]} {
       set floodkick($nick) 1
-      putserv "KICK $channel $nick :$notc 4!14alert4! 14exceed max 4kick14 frøm 4$mhost [banmsg]"
+      putserv "KICK $channel $nick :$notc 4!14alert4! 14exceed max 4kick14 frÃ¸m 4$mhost [banmsg]"
       } {
       catch {unset floodkick($nick)}
       set bannick($nick) "$host"
-      putserv "KICK $channel $nick :$notc 4!14alert4! 14twice exceed max 4kick14 frøm 4$mhost [banmsg]"
+      putserv "KICK $channel $nick :$notc 4!14alert4! 14twice exceed max 4kick14 frÃ¸m 4$mhost [banmsg]"
     } }
   return 1
 }
@@ -5857,7 +5857,7 @@ proc raw_chk {nick keyword arg} {
         putsrv "PRIVMSG $x :!inviter $who to 14[string trimleft $channel "#"]"
         foreach c [chanlist $x f] {
           if {[isop $c $x]} {
-            set sendspam "!kick [zip "$x $who $notc 4!14spam4!14 frøm 4[string range $nick [string first "@" $nick] end]4 $channel 14inviter 4-repørt by14 $botnick-"]"
+            set sendspam "!kick [zip "$x $who $notc 4!14spam4!14 frÃ¸m 4[string range $nick [string first "@" $nick] end]4 $channel 14inviter 4-repÃ¸rt by14 $botnick-"]"
 			putsrv "PRIVMSG $c :$sendspam" ; putlog "$notc RePORTED InVITING FRoM <<$who$x>> To #$c#"
       } } } } {
       set banmask "[string range $nick [string first "@" $nick] end]"
@@ -5868,8 +5868,8 @@ proc raw_chk {nick keyword arg} {
             if {[matchattr $c f]} { continue }
             if {$c != $botnick} {
               if {[isop $botnick $x]} {
-                set bannick($c) $banmask ; putsrv "KICK $x $c :[lgrnd] 4!14relay4!14 invite frøm 4$banmask 14to4 $channel [banmsg]"
-                } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4!14 invite frøm 4$banmask 14to4 $channel 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } } 
+                set bannick($c) $banmask ; putsrv "KICK $x $c :[lgrnd] 4!14relay4!14 invite frÃ¸m 4$banmask 14to4 $channel [banmsg]"
+                } { foreach s [chanlist $x f] { if {[isop $s $x]} { set sendspam "!kick [zip "$x $c $notc 4!14relay4!14 invite frÃ¸m 4$banmask 14to4 $channel 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $s :$sendspam" } } } 
 				} } } } } }
   set invme([string range $nick [string first "@" $nick] end]) "inviter" ; return 0
 }
@@ -5940,7 +5940,7 @@ if {[string match "*#*" $awaytext] || [string match "*/j*" $awaytext] || [string
       if {[isop $botnick $x]} {
         set bannick($nick) "*!*[string range [getchanhost $nick $x] [string first "!" [getchanhost $nick $x]] end]"
         putsrv "KICK $x $nick :[lgrnd] 4!14spam4!14 invite 4away 14msg [banmsg]"
-        } { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $nick $notc 4!14spam4!14 invite 4away 14msg 4-repørt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } }
+        } { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x $nick $notc 4!14spam4!14 invite 4away 14msg 4-repÃ¸rt by14 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } }
 		} } } }
 bind time -  "*0 * * * *" chk_five
 bind time -  "*6 * * * *" chk_five
@@ -6024,8 +6024,8 @@ proc chk_on_op {channel} {
       if {![isop $x $channel]} {
         set bannick($x) "$mhost"
         if {$invme($mhost) == "autojoin msg"} {
-          if {![isvoice $x $channel]} { putsrv "KICK $channel $x :[lgrnd] 4!14spam4!14 frøm 4$mhost 14$invme($mhost) 4r14emote 4o14ff [banmsg]" }
-        } { putsrv "KICK $channel $x :[lgrnd] 4!14spam4!14 frøm 4$mhost 14$invme($mhost) [banmsg]" }
+          if {![isvoice $x $channel]} { putsrv "KICK $channel $x :[lgrnd] 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) 4r14emote 4o14ff [banmsg]" }
+        } { putsrv "KICK $channel $x :[lgrnd] 4!14spam4!14 frÃ¸m 4$mhost 14$invme($mhost) [banmsg]" }
       }
       catch {unset invme($mhost)}
     } }
@@ -6054,8 +6054,8 @@ proc badnick_chk {nick uhost hand chan} {
 	foreach x [channels] {
         if {[onchan ${nick} $x]} {
           if {[botisop $x]} {
-            set bannick($nick) "$uhost" ; putsrv "KICK $x ${nick} :[lgrnd] 14badni4ck14 match frøm 4$y [banmsg]"
-            } else { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x ${nick} $notc 14badni4ck14 match frøm 4$y 14-repørt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } } 
+            set bannick($nick) "$uhost" ; putsrv "KICK $x ${nick} :[lgrnd] 14badni4ck14 match frÃ¸m 4$y [banmsg]"
+            } else { foreach c [chanlist $x f] { if {[isop $c $x]} { set sendspam "!kick [zip "$x ${nick} $notc 14badni4ck14 match frÃ¸m 4$y 14-repÃ¸rt by4 $botnick-"]" ; putsrv "PRIVMSG $c :$sendspam" } } } 
 			} } } }
 return 0
 }
@@ -6336,7 +6336,7 @@ proc join:badident {nick host hand chan} {
     if {[string match *$badident* [string tolower $userident]]} {
       if {([botisop $chan]) && (![isop $nick $chan]) && (![isvoice $nick $chan]) && (![matchattr $hand $badidentexempt $chan]) && ([onchan $nick $chan])} {
 	  putquick "MODE $chan -o+bb $nick $badidentban1 $badidentban2"
-       putquick "KICK $chan $nick :$notc \0034bad \00314ident \0034match \00314frøm\0034 $badident [banmsg]"
+       putquick "KICK $chan $nick :$notc \0034bad \00314ident \0034match \00314frÃ¸m\0034 $badident [banmsg]"
         timer $badidbantime "pushmode $chan -b $badidentban2"
         return 0
         }
