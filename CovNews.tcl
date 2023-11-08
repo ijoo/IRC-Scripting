@@ -33,7 +33,7 @@ set a_berita {
 }
 
 proc go_berita {args} {
-        set detik_kat { "health" "news" "inet" "finance" "news" "hot" "sport" "travel" "food" "news" "wolipop" }
+        set detik_kat { "health" "news" "inet" "finance" "hot" "sport" "travel" "food" "wolipop" }
         set kat [lindex $detik_kat [rand [llength $detik_kat]]]
         putlog "############# Get Detik-$kat !"
         get_berita $kat
