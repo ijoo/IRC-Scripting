@@ -1,99 +1,61 @@
-##############################################################
-## iJooMP3.tcl                                              ## 
-## Created For Fun                                          ##
-##                                                          ##
-##                             Jakarta, 16-11-16            ##
-##                                  iJoo.oRg                ##
-##                                                          ##
-## Dependencies :                                           ##
-##  youtube-dl  (https://rg3.github.io/youtube-dl/)         ##
-##  FFMPEG      (https://ffmpeg.org/)                       ##
-##                                                          ##
-## Usage :                                                  ##
-##  .chanset #channel +ijootcl                              ##
-##                                                          ##
-## Live Action :                                            ##
-##  /server irc.forumcerdas.net #dReaMer                    ##
-##############################################################
+# mp3.tcl v0.1 by {4}m0N`Ra (#anticristo@ircnet)
+#
+# set the bot say that is listening for an mp3 for a random time
 
-set ijootcl_setting(flag) ""
-set ijootcl_setting(web) "http://127.0.0.1/download/"
-set ijootcl_setting(path) "/usr/share/nginx/html/download/"
-set ijootcl_setting(auto_del) "1"
-set ijootcl_setting(time) "15"
-set ijootcl_setting(cmd_mp3) "@mp3"
-set ijootcl_setting(delete) [exec pwd]/chk_del
+set mp3_enable 1
+set mp3_time 60
+set mp3_msgs { "Friday i'm in love - the cure" "Love Song - The Cure" "Lullaby - The Cure" "The Cure - In Orange (live 1986) - 00 - Introduction" "The Cure - In Orange (live 1986) - 03 - Play For Today" "The Cure - In Orange (live 1986) - 04 - A Strange Day" "REM - Losing My Religion" "SlipKnoT - 02 - (Sic)" "Slipknot - Wait and Bleed" "Mr Big - To Be With You" "Marlene Kuntz - Nuotando Nell'Aria" "Korn & Rammstein - Good God" "Korn - 06 - Thoughtless" "Extreme - More Than Words" "99 Posse - Curre Curre Cuaglio" }
+set mp3_msgs1 { "Friday i'm in love - the cure" "Love Song - The Cure" "Lullaby - The Cure" "The Cure - In Orange (live 1986) - 00 - Introduction" "The Cure - In Orange (live 1986) - 03 - Play For Today" "The Cure - In Orange (live 1986) - 04 - A Strange Day" "REM - Losing My Religion" "SlipKnoT - 02 - (Sic)" "Slipknot - Wait and Bleed" "Mr Big - To Be With You" "Marlene Kuntz - Nuotando Nell'Aria" "Korn & Rammstein - Good God" "Korn - 06 - Thoughtless" "Extreme - More Than Words" "99 Posse - Curre Curre Cuaglio" }
+set mp3_status 0
+set mp3_msg  ""
+set mp3_gone 0
 
-bind pub $ijootcl_setting(flag) $ijootcl_setting(cmd_mp3) ijootcl_mp3
-bind time - "* * * * *" auto_hapus
-setudef flag ijootcl
-package require json
-package require http
-
-if {![file exists $ijootcl_setting(delete)]} {
-	putlog "Creating Chk Delete Files"
-        append out "#\!/usr/bin/env bash\n"
-        append out "\n"
-	append out "find \$1 -maxdepth 1 -cmin \+\$2 -name \*.mp3 -exec rm -rf \{\} \\;\n"
-        set fd [open "$ijootcl_setting(delete)" w]
-        puts $fd $out
-        unset out
-        close $fd
-        exec chmod 755 $ijootcl_setting(delete)
+proc mp3_timer {} {
+  global mp3_enable mp3_time mp3_msgs mp3_msgs1 mp3_status mp3_msg mp3_msg1 mp3_gone
+  if {$mp3_enable} {
+    if {$mp3_status} {
+      foreach chan [channels] { puthelp "PRIVMSG $chan :\001ACTION 13>>4X13<< Mp3 :: »\002 0,4 $mp3_msg1  « \002:: Mp3 13>>4X13<<\001" }
+      putserv "AWAY"
+      set mp3_status 0
+    } else {
+      set mp3_msg [lindex $mp3_msgs [rand [llength $mp3_msgs]]]
+      foreach chan [channels] { puthelp "PRIVMSG $chan :\001ACTION 13>>4X13<< Mp3 :: »\002 0,4 $mp3_msg  « \002:: Mp3 13>>4X13<<\001"  }
+      putserv "MP3 :$mp3_msg"
+      set mp3_status 1
+      set mp3_gone [clock seconds]
+    }
+  if {![string match "*time_mp3*" [timers]]} { timer [expr [rand $mp3_time] + 1] mp3_timer }
+  }
 }
 
-proc ijootcl_mp3 {nick uhost handle chan text } {
-        global ijootcl_setting data_var
-        set hostlink [lrange $text 0 end]
-        foreach i [channel info $chan] {
-                if {([string match "+ijootcl" $i])} {
-                        if {$hostlink == ""} {
-				putquick "PRIVMSG $chan :Syntax: \002@mp3\002 <singer> - <sing title> or <Youtube llnk>"
-                       	} elseif {[string match "*youtube.com*" $hostlink] || [string match "*youtu.be*" $hostlink]} {
-				putquick "PRIVMSG $chan :Prosessing MP3 request by $nick "
-				set ijoo_judul [exec youtube-dl $hostlink -e]
-				set ijoo_id [exec youtube-dl $hostlink --get-id]
-				set ijoo_dur [exec youtube-dl $hostlink --get-duration]
-				set linkmp3 [tinyurl "$ijootcl_setting(web)$ijoo_id.mp3"]
-                                set ijoo_ytdl [exec youtube-dl $hostlink --extract-audio --audio-format mp3 -o "$ijootcl_setting(path)%(id)s.%(ext)s"]
-					foreach line [split $ijoo_ytdl "\r\n"] {
-        		                       if {[string match "*eleting original file*" $line]} {
-                         	               puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 $ijoo_judul (\002 $ijoo_dur \002) - \002Download:\002 $linkmp3 "
-					       puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 Files Auto Delete Every\002 $ijootcl_setting(time) Minutes\002 | \002c\002Re\002a\002T\002e\002d \002B\002y i\002J\002oo \037<admin@ijoo.org>\037"
-                                	}
-				}							
-			} else {
-				putquick "PRIVMSG $chan :Prosessing MP3 request by $nick "
-				set ijoo_data [exec youtube-dl scsearch:"$hostlink" -j]
-				set ijoo_info [::json::json2dict $ijoo_data]
-				set ijoo_judul [lrange [dict get $ijoo_info title] 0 end]
-				set durasi [lindex [lindex $ijoo_info 17] 0]
-				set ijoo_link [lrange [dict get $ijoo_info url] 0 end]
-				set ijoo_dur [clock format $durasi -gmt 1 -format %H:%M:%S]
-				set ijoo_url [tinyurl $ijoo_link]
-				puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 $ijoo_judul (\002 $ijoo_dur \002) - \002Download:\002 $ijoo_url "
-				puthelp "PRIVMSG $chan :\002\037\[\002\037MP3\002\037\]\002\037 \002c\002Re\002a\002T\002e\002d \002B\002y i\002J\002oo \037<admin@ijoo.org>\037"
-			}
-		}
-	}
+proc mp3_dcc {hand idx arg} {
+ global mp3_enable mp3_time
+ switch -exact -- [string tolower [lindex $arg 0]] {
+  "now" {
+   putdcc $idx "mp3: now"
+   mp3_timer
+  }
+  "enable" {
+   if {([lindex $arg 1] != 0) && ([lindex $arg 1] != 1)} { putdcc $idx "Usage: mp3 enable 0/1" ; return 0 }
+   set mp3_enable [lindex $arg 1]
+   putdcc $idx "mp3: $mp3_enable"
+  }
+  "time" {
+   if {[lindex $arg 1] == ""} { putdcc $idx "Usage: mp3 time max_time" ; return 0 }
+   putdcc $idx "mp3 time: [lindex $arg 1]"
+   set mp3_time [lindex $arg 1]
+  }
+  default {
+   putdcc $idx "mp3.tcl v0.1 by {4}m0N`Ra (anticristo@ircnet)"
+   putdcc $idx "Usage: mp3 now"
+   putdcc $idx "       mp3 enable 0/1      (actual: $mp3_enable)"
+   putdcc $idx "       mp3 time   max_time (actual: $mp3_time)"
+  }
+ }
 }
 
-proc tinyurl {url} {
-	if {[string length $url] <= 26} { return $url; } 
-	set tinyurl "http://tinyurl.com/api-create.php";
-	set query [::http::formatQuery "url" $url]; 
-	set token [::http::geturl "$tinyurl?$query" -timeout 5000]; 
-	set url [::http::data $token]; 
-	::http::cleanup $token; 
-	return $url; 
-}
+if {![string match "*mp3_timer*" [timers]]} { timer [expr [rand $mp3_time] + 1] mp3_timer }
 
-proc auto_hapus { nick uhost hand chan arg } {
-	global ijootcl_setting
-	if {$ijootcl_setting(auto_del) == "1" } { 
-		set del_ok [exec /bin/bash $ijootcl_setting(delete) $ijootcl_setting(path) $ijootcl_setting(time)]
-		putlog "File Clearing every $ijootcl_setting(time) minutes"
-	}
-}
+bind dcc m mp3system mp3_dcc
 
-putlog "iJooMP3 tCL By iJoo.oRg is Loaded!!"
+putlog "Loaded mp3.tcl v0.1 by {4}m0N`Ra"
