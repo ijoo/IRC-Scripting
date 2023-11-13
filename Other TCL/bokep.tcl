@@ -129,7 +129,7 @@ set bokep_msg {
 {http://mybrutus:19991999@joey-silvera.com }
 {http://members.teencamvids.com/ l: arcster p: ayme99 }
 {http://larkin63:vincent@www.camteases.com/members/ }
-{http://sky:€@www.freakyfetishsex.com/members/index.html }
+{http://sky:â‚¬@www.freakyfetishsex.com/members/index.html }
 {http://butthead1:beavis1@www.debilaszewski.com/Members/index.shtml }
 {http://astrobooty.com Login: shortfuse Password: heyhey }
 {http://447755:557744@www.bustydiva.com/secure/ }
@@ -161,7 +161,6 @@ set bokep_msg {
 {http://www.belladasemana.com.br/_assinantes/popups/vanessa_cunha/ensaio1.htm  log1n: tjg111  pa33: cheech }
 {http://thom22:goat22@www.angiexxx.com/members/index.shtml }
 {http://summerbunnies.com user:mdruff@cox.net pass:mdruff }
-{http://marley:robert@www.megateenzone.com/members/ }
 {http://listof:middlesex@www.teenteddies.com/members/index.html }
 {http://hentai18.com/members/ l:robk@ocelot.net p:yb7yegme }
 {http://hawg01:vkmmrqzw@lisamariescott.com/members/ }
@@ -196,7 +195,7 @@ set bokep_msg {
 {http://kielosa:kwiettie@members.supermaxxx.com/ }
 {http://sugars:sweets@www.sweetangielive.com/members/index.htm }
 {http://zipcd:springs@www.blacksonblondes.com/membersarea/ }
-{http://elitepornstars.com/members/ l:gollum2 p:€€€€€ }
+{http://elitepornstars.com/members/ l:gollum2 p:â‚¬â‚¬â‚¬â‚¬â‚¬ }
 {http://freeman:billy@www.anal-fuck.org/members/ }
 {http://www.logans-world.com/members/ l: e90flint p: shel1yid }
 {http://www.americancatfighting.com/members/ l:olduser p:now0new }
@@ -1475,7 +1474,7 @@ set bokep_msg {
 {http://alec55:trujillo@crv-jettis.royal-clubs.com/members/ }
 {http://washpost:gdyxgd@198.64.156.43/ }
 {http://whippedass.com/members/ l:Gabbot p:look }
-{http://jojo730:€€€€€]@www.interracialaction.com/members/index.html }
+{http://jojo730:â‚¬â‚¬â‚¬â‚¬â‚¬]@www.interracialaction.com/members/index.html }
 {http://bridgettekerkove.com/members/ }
 {http://saholmes:safeco@members.spunkpatrol.com }
 {http://Sloppy:columbus@jerkoffboys.com/protected_access.htm/members_index.htm }
