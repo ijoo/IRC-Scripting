@@ -10,11 +10,11 @@ import requests
 def get_location(nick, user, hand, chan, text, **kwargs):
     ip_address = text or "8.8.8.8"
     response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
-    kota = response.get('city')
-    region = response.get('region')
-    negara = response.get('country_name')
-    asnnya = response.get('asn')
-    orgnya = response.get('org')
+    kota = response.get('city') or "-"
+    region = response.get('region') or "-"
+    negara = response.get('country_name') or "-"
+    asnnya = response.get('asn') or "-"
+    orgnya = response.get('org') or "-"
     putmsg(chan, f"\002IP:\002 "+ ip_address)
     putmsg(chan, f"\002Location:\002 " + kota + ", " + region + " (" + negara + ")")
     putmsg(chan, f"\002ASN:\002 " + asnnya + " (" + orgnya + ")")
