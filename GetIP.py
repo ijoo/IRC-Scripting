@@ -17,6 +17,6 @@ def get_location(nick, user, hand, chan, text, **kwargs):
     orgnya = response.get('org')
     putmsg(chan, f"\002IP:\002 "+ ip_address)
     putmsg(chan, f"\002Location:\002 " + kota + ", " + region + " (" + negara + ")")
-    putmsg(chan, f"\002ASN:\002 " + asnnya + " (" + orgny a+ ")")
+    putmsg(chan, f"\002ASN:\002 " + asnnya + " (" + orgnya + ")")
 
 bind("pub", "*", "!ip", get_location)
