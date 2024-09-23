@@ -19,7 +19,7 @@ def get_ip(nick, user, hand, chan, text, **kwargs):
             negara = response.get('country') or "None"
             kodenegara = response.get('countryCode') or "None"
             regionname = response.get('regionName') or "None"
-            kota = response.get('city') or "-"
+            kota = response.get('city') or "None"
             timezone = response.get('timezone') or "None"
             asnnya = response.get('as') or "None"
 
