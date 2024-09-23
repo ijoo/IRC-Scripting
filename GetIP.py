@@ -2,10 +2,6 @@
 # Eggdrop 1.9.6+ with python module needed.
 # Simple IP Check Sripting [versi 1.4 2024/Sept]
 # Author = iJoo - evochat.id
-# This Python Script Sample For Eggdrop
-# Eggdrop 1.9.6+ with python module needed.
-# Simple IP Check Sripting
-# Author = iJoo - evochat.id
 
 from eggdrop import bind
 from eggdrop.tcl import putmsg, putlog
