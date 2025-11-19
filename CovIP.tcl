@@ -54,7 +54,7 @@ proc ijoo_ganteng {nick uhost hand chan rest} {
 
                 putquick "PRIVMSG $chan :Range \00304\002»\002\003 $ijoo_range"
                 if { $ijoo_host  == "null" } {
-                        putquick "PRIVMSG $chan :Hostname \00304\002»\002\003 Tidak ada"
+                        putquick "PRIVMSG $chan :Hostname \00304\002»\002\003 Tidak ada."
                 } else {
                         putquick "PRIVMSG $chan :Hostname \00304\002»\002\003 $ijoo_host"
                 }
