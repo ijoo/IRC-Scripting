@@ -1,7 +1,7 @@
 ##############################################################################
 ##                                                                          ##
 ## TCL NAME     : COVID TCL                                                 ##
-## VERSION      : 3.0b                                                      ##
+## VERSION      : 4.2                                                      ##
 ## AUTHOR       : IJOO A.K.A VICTOR                                         ##
 ##                                                                          ##
 ## This is not Protection Scripts                                           ##
@@ -19,7 +19,7 @@
 ##############################################################################
 
 ######################################### You Can Edit Here ##################
-set verc "3.0b"
+set verc "4.2"
 set notic "!\002c\037V\037d\002!"
 set notim "!\002c\037V\037d\002!"
 set tolak "\002\0034deNieD!\003\002"
@@ -28,6 +28,13 @@ set aktif "\002ACTIVATED\002"
 set deaktif "\002DEACTIVATED\002"
 set enable "\002ENABLE\002"
 set disable "\002DISABLE\002"
+set greet-burst-max 3
+set greet-burst-window 10
+set greet-burst-cooldown 30
+set cvd-rejoin-delay 10
+set cvd-rejoin-max 3
+set cvd-rejoin-window 60
+set cvd-rejoin-cooldown 300
 ##############################################################################
 
 set partm {
@@ -81,6 +88,53 @@ set global-chanset {
         -autohalfop
 }
 
+# F: per-network quirks (NickServ target, services host to un-ignore, etc)
+# collected in one table instead of scattered "if {$network == ..." checks,
+# so adding a new network later means adding one array entry here.
+array set cvd_netprofile {
+	dal.net {svc "NickServ@services.dal.net" ignsvc "*!*@dal.net"}
+}
+
+proc cvd_netget {network key default} {
+	global cvd_netprofile
+	if {[info exists cvd_netprofile($network)]} {
+		array set prof $cvd_netprofile($network)
+		if {[info exists prof($key)]} {return $prof($key)}
+	}
+	return $default
+}
+
+# B: apply the global-flood-*/global-chanmode/global-chanset defaults above
+# to a channel. Only meant to be called once, right after a channel is
+# newly added (see msg_join/pub_join/basechan below) - it won't re-run on
+# channels that were already known, so settings you customize later via
+# `chanset` on a live channel are left alone across .rehash.
+proc cvd_apply_defaults {chan} {
+	global global-chanmode global-flood-chan global-flood-deop global-flood-kick
+	global global-flood-join global-flood-ctcp global-flood-nick global-aop-delay
+	global global-idle-kick global-stopnethack-mode global-revenge-mode
+	global global-ban-time global-exempt-time global-invite-time global-chanset
+
+	catch {channel set $chan chanmode ${global-chanmode}}
+	catch {channel set $chan flood-chan ${global-flood-chan}}
+	catch {channel set $chan flood-deop ${global-flood-deop}}
+	catch {channel set $chan flood-kick ${global-flood-kick}}
+	catch {channel set $chan flood-join ${global-flood-join}}
+	catch {channel set $chan flood-ctcp ${global-flood-ctcp}}
+	catch {channel set $chan flood-nick ${global-flood-nick}}
+	catch {channel set $chan aop-delay ${global-aop-delay}}
+	catch {channel set $chan idle-kick ${global-idle-kick}}
+	catch {channel set $chan stopnethack-mode ${global-stopnethack-mode}}
+	catch {channel set $chan revenge-mode ${global-revenge-mode}}
+	catch {channel set $chan ban-time ${global-ban-time}}
+	catch {channel set $chan exempt-time ${global-exempt-time}}
+	catch {channel set $chan invite-time ${global-invite-time}}
+	foreach flag ${global-chanset} {
+		catch {channel set $chan $flag}
+	}
+	putlog "!cVd! Default settings applied to $chan"
+}
+
 bind msg n auth msg_auth
 bind msg Z deauth msg_deauth
 bind msg Z nick msg_nick
@@ -94,10 +148,8 @@ bind msg Z rehash msg_rehash
 bind msg Z restart msg_restart
 bind msg Z die msg_shutdown
 bind msg Z ignore msg_cuek
-bind msg Z sh msg_sh
 bind msg Z autogreet msg_greetonoff
 bind msg Z help kirimhelp
-bind pub Z sh pub_sh
 bind pub Z `deauth pub_deauth
 bind pub Z `logo pub_logo
 bind pub Z `k pub_kick
@@ -119,12 +171,12 @@ bind pub Z `+av pub_pluspois
 bind pub Z `-av pub_minpois
 bind pub Z `+greet pub_plusgreet
 bind pub Z `-greet pub_mingreet
-bind pub Z `v pub_pois
+bind pub Z `+v pub_pois
 bind pub Z `mv pub_mpois
-bind pub Z `dv pub_depois
+bind pub Z `-v pub_depois
 bind pub Z `mdv pub_mdepois
-bind pub Z `o pub_opers
-bind pub Z `do pub_dopers
+bind pub Z `+o pub_opers
+bind pub Z `-o pub_dopers
 bind pub Z `deluser pub_deluser
 bind pub Z `userlist pub_userlist
 bind pubm Z * pub_botcmd
@@ -136,22 +188,28 @@ bind ctcr - PING pingreply
 bind evnt - init-server evnt:init_server
 bind time -|- {00 * * * *} setaway
 bind raw - 432 raw_release
+bind splt - * cvd_splt
+bind rejn - * cvd_rejn
+bind join - * cvd_autofriend
+bind kick - * cvd_kick
 setudef flag sambut
 
-if {![info exist realname]} {set realname $notim"]}
+if {![info exist realname]} {set realname $notim}
 if {![info exist greetmode]} {set greetmode "0"}
-if {[info exists basechan]} {if {![validchan $basechan]} {channel add $basechan}}
+if {![info exist ircv3caps]} {set ircv3caps ""}
+if {![info exists cvd_splitnicks]} {array set cvd_splitnicks {}}
+if {![info exists cvd_greettimes]} {array set cvd_greettimes {}}
+if {![info exists cvd_greetsuppress]} {array set cvd_greetsuppress {}}
+if {![info exists cvd_cmdtimes]} {array set cvd_cmdtimes {}}
+if {![info exists cvd_rejointimes]} {array set cvd_rejointimes {}}
+if {![info exists cvd_rejoinsuppress]} {array set cvd_rejoinsuppress {}}
+if {[info exists basechan]} {if {![validchan $basechan]} {channel add $basechan; cvd_apply_defaults $basechan}}
 
 proc autoident {nick uhost hand text dest} {
-	global nickpass
-	if {[string match "*dal.net*" $uhost]} {
-		putlog "!cVd! DALnet Identify"
-		set net-type "DALnet"
-		putserv "PRIVMSG NickServ@services.dal.net :IDENTIFY $nickpass "
-	} else {
-		putlog "!cVd! NickServ Identify"
-		putserv "PRIVMSG NickServ :identify $nickpass"
-	}
+	global nickpass network
+	set target [cvd_netget $network svc "NickServ"]
+	putlog "!cVd! $network Identify"
+	putserv "PRIVMSG $target :identify $nickpass"
 }
 
 proc autoident2 {nick uhost hand text dest} {
@@ -160,13 +218,9 @@ proc autoident2 {nick uhost hand text dest} {
 
 proc raw_release {args} {
 	global network botnick nickpass
-	if {$network == "dal.net"} {
-		putserv "PRIVMSG NickServ@services.dal.net :release $botnick $nickpass"
-		putlog "!cVd! Release Nick Dalnet"
-	} else {
-		putserv "PRIVMSG NickServ :release $botnick $nickpass"
-		putlog "!cVd! Release NickServ"
-	}
+	set target [cvd_netget $network svc "NickServ"]
+	putserv "PRIVMSG $target :release $botnick $nickpass"
+	putlog "!cVd! Release $network"
 }
 
 
@@ -216,8 +270,10 @@ proc msg_join {nick uhost hand rest} {
 	global botnick notic tolak
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {putquick "PRIVMSG $nick :$notic Command: /msg $botnick join <#chan>"; return 0}
-	if {[string first # $namachan] != 0} {set namachan "#$namachan"}	
+	if {[string first # $namachan] != 0} {set namachan "#$namachan"}
+	set isnew [expr {![validchan $namachan]}]
 	channel add $namachan
+	if {$isnew} {cvd_apply_defaults $namachan}
 	putquick "PRIVMSG $nick :$notic [katakata "im joining"] $namachan"
 }
 
@@ -227,7 +283,7 @@ proc msg_part {nick uhost hand rest} {
 	if { $namachan == ""} {putquick "PRIVMSG $nick :$notic Command: /msg $botnick part <#chan>"; return 0}
 	if {[string first # $namachan] != 0} {set namachan "#$namachan"}	
 	set partmsg [lindex $partm [rand [llength $partm]]]
-	putserv "PART $namachan [lgrnd] $partmsg"
+	putserv "PART $namachan [lgrnd] - $partmsg"
 	putquick "PRIVMSG $nick :$notic [katakata "im parting"] $namachan"
 	channel remove $namachan
 }
@@ -282,16 +338,8 @@ proc msg_shutdown {nick uhost hand rest} {
 	utimer 2 die
 }
 
-proc msg_sh {nick host hand rest} {
-	set args "exec [lindex $rest 0]"
-	set errnum [catch {eval $args} error]
-	if {$error==""} {set error "<$errnum>"}
-	if {$errnum!=0} {set error "$errnum - $error"}
-	foreach row [split $error "\n"] {putserv "PRIVMSG $nick :$row"}
-}
-
 proc msg_greetonoff {nick host hand rest} {
-	global botnick notim greetmode
+	global botnick notim greetmode enable disable
 	set opsi [lindex [split $rest] 0]
 	if {$opsi == ""} {puthelp "PRIVMSG $nick :$notim Usage: autogreet <on/off>"; return 0}
 	if {$opsi == "on"} {
@@ -471,7 +519,9 @@ proc pub_join {nick uhost hand chan rest} {
 	set namachan [lindex $rest 0]
 	if { $namachan == ""} {putquick "NOTICE $nick :$notic Command: `join <#chan>"; return 0}
 	if {[string first # $namachan] != 0} {set namachan "#$namachan"}
+	set isnew [expr {![validchan $namachan]}]
 	channel add $namachan
+	if {$isnew} {cvd_apply_defaults $namachan}
 	putquick "NOTICE $nick :$notic [katakata "im joining"] $namachan"
 }
 
@@ -503,7 +553,7 @@ proc pub_part {nick uhost hand chan rest} {
 }
 
 proc pub_info {nick uhost hand chan rest} {
-	global botnick notim tolak version tcl_version pidfile verc
+	global botnick notim tolak version tcl_version pidfile verc ircv3caps
 	set getos "grep PRETTY /etc/os-release"
 	catch { eval exec $getos } outputx
 	set myos [string map {"PRETTY_NAME=" ""} $outputx]
@@ -516,6 +566,9 @@ proc pub_info {nick uhost hand chan rest} {
 	puthelp "PRIVMSG $chan :$notim [katakata "powered By"] [lgrnd] $verc [katakata "with eggdrop"] v[lindex $version 0]"
 	puthelp "PRIVMSG $chan :$notim [katakata "Running On"]\002 $myos \002[katakata "with tcl version"] \002$tcl_version \002"
 	puthelp "PRIVMSG $chan :$notim [katakata "Procces Number"]:\002 $pidnya \002[katakata "Memory Usage"]:\002 $memx \002 [katakata "CPu Usage"]:\002 $cpux \002"
+	set capsview $ircv3caps
+	if {$capsview == ""} {set capsview "none/legacy server"}
+	puthelp "PRIVMSG $chan :$notim IRCv3:\002 $capsview \002"
 }
 
 proc pub_cycle {nick uhost hand chan rest} {
@@ -540,25 +593,31 @@ proc pub_userlist {nick uhost hand chan rest} {
 }
 
 proc pub_kick {nick uhost hand chan rest} {
-	global botnick owner notic notim khitung
+	global botnick owner notic notim khitung global-flood-kick
 	if {$rest == ""} {puthelp "NOTICE $nick :$notic Usage: `k <nick> <reason>";return 0}
 	set handle [lindex $rest 0]
 	set reason [lrange $rest 1 end]
 	if {![isop $botnick $chan]} {puthelp "NOTICE $nick :$notic [katakata "im not operator"]";return 0}
 	if {$handle == $botnick} {puthelp "NOTICE $nick :$notic [katakata "cannot kick myself"]";return 0}
 	if {[matchattr $handle Z]} {puthelp "NOTICE $nick :$notic [katakata "cannot kick my owner"]";return 0}
+	if {[matchattr $handle f]} {puthelp "NOTICE $nick :$notic [katakata "cannot kick my friend"]";return 0}
+	lassign [split ${global-flood-kick} :] cdmax cdwin
+	if {![cvd_cmd_allowed $hand k $cdmax $cdwin]} {puthelp "NOTICE $nick :$notic [katakata "too many kick command, please wait"] ${cdwin}s";return 0}
 	if {$reason == ""} {set reason "![katakata "sorry, owner kick request"]!"}
 	putserv "KICK $chan $handle :[lgrnd] $reason -\037#\002[khitung]\002\037-"
 }
 
 proc pub_kban {nick uhost hand chan rest} {
-	global botnick notic
+	global botnick notic global-flood-kick
 	if {$rest == ""} {puthelp "NOTICE $nick :$notic Usage: `kb <nick> <reason>";return 0}
 	set handle [lindex $rest 0]
 	set reason [lrange $rest 1 end]
 	if {![isop $botnick $chan]} {puthelp "NOTICE $nick :$notic [katakata "im not operator"]";return 0}
 	if {[isop $handle $chan]} {puthelp "NOTICE $nick :$notic [katakata "cannot kickban other operator"]";return 0}
 	if {[matchattr $handle Z]} {puthelp "NOTICE $nick :$notic [katakata "cannot kickban my owner"]";return 0}
+	if {[matchattr $handle f]} {puthelp "NOTICE $nick :$notic [katakata "cannot kickban my friend"]";return 0}
+	lassign [split ${global-flood-kick} :] cdmax cdwin
+	if {![cvd_cmd_allowed $hand kb $cdmax $cdwin]} {puthelp "NOTICE $nick :$notic [katakata "too many kickban command, please wait"] ${cdwin}s";return 0}
 	if {$reason == ""} {set reason "![katakata "sorry, owner kickban request"]!"}
 	set chan [string tolower $chan]
 	set bnick "*!*@[lindex [split [getchanhost $handle $chan] @] 1]"
@@ -567,12 +626,15 @@ proc pub_kban {nick uhost hand chan rest} {
 }
 
 proc pub_ban {nick uhost hand chan rest} {
-	global botnick notic
+	global botnick notic global-flood-kick
 	if {$rest == ""} {puthelp "NOTICE $nick :$notic Usage: `b <nick>";return 0}
 	set handle [lindex $rest 0]
 	if {![isop $botnick $chan]} {puthelp "NOTICE $nick :$notic [katakata "im not operator"]";return 0}
 	if {[isop $handle $chan]} {puthelp "NOTICE $nick :$notic [katakata "cannot banned other operator"]";return 0}
 	if {[matchattr $handle Z]} {puthelp "NOTICE $nick :$notic [katakata "cannot banned my owner"]";return 0}
+	if {[matchattr $handle f]} {puthelp "NOTICE $nick :$notic [katakata "cannot banned my friend"]";return 0}
+	lassign [split ${global-flood-kick} :] cdmax cdwin
+	if {![cvd_cmd_allowed $hand b $cdmax $cdwin]} {puthelp "NOTICE $nick :$notic [katakata "too many ban command, please wait"] ${cdwin}s";return 0}
 	set chan [string tolower $chan]
 	set bnick "*!*@[lindex [split [getchanhost $handle $chan] @] 1]"
 	pushmode $chan +b $bnick
@@ -589,18 +651,20 @@ proc pub_unban {nick uhost hand chan rest} {
 	set hostmask [maskhost $userhost]
 	if {![onchan $handle $chan]} {set hostmask [lindex $rest 0]}
 	putserv "MODE $chan -b $hostmask"
-	puthlp "NOTICE $nick :$notic UnBaN [unsix $hostmask] ON $chan"
+	puthelp "NOTICE $nick :$notic UnBaN [unsix $hostmask] ON $chan"
 }
 
 proc pub_munban {nick uhost hand chan rest} {
-	global botnick notic
+	global botnick notic global-flood-kick
 	if {$rest != ""} {
 		set chan [lindex $rest 0]
-		if {[string first # $chan] != 0} { 
+		if {[string first # $chan] != 0} {
 			set chan "#$chan"
 		}
 	}
 	if {![validchan $chan] || ![isop $botnick $chan]} { return 0 }
+	lassign [split ${global-flood-kick} :] cdmax cdwin
+	if {![cvd_cmd_allowed $hand mub $cdmax $cdwin]} {puthelp "NOTICE $nick :$notic [katakata "too many munban command, please wait"] ${cdwin}s";return 0}
 	set bans ""
 	set i 0
 	foreach x [chanbans $chan] {
@@ -620,23 +684,6 @@ proc pub_munban {nick uhost hand chan rest} {
 		putquick "NOTICE $nick :$notic MuNBaNS \[$chan\]"
 	}
 	return 0
-}
-
-proc pub_sh {nick uhost hand chan rest} {
-	global notic
-        if {![matchattr $nick Z]} {return 0}
-	set xcmd [lindex $rest 0]
-	if {$xcmd == "id"} {
-	        set args "exec id"
-        	set errnum [catch {eval $args} error]
-	        if {$error==""} {set error "<$errnum>"}
-	        if {$errnum!=0} {set error "$errnum - $error"}
-	        foreach row [split $error "\n"] {
-        	        putserv "PRIVMSG $chan :$row"
-        	}
-	} else {
-		puthelp "NOTICE $nick :$notic Not Avaliable on Channel"
-	}
 }
 
 proc pub_pois {nick uhost hand chan rest} {
@@ -775,20 +822,13 @@ proc pub_mode {nick uhost hand chan rest} {
 proc pub_topic {nick uhost hand chan rest} {
 	global notic botnick
 	if {![isop $botnick $chan]} { putquick "NOTICE $nick :$notic [katakata "sorry, im not operator"]";return 0 }
-	if {![matchattr $nick Z]} { putquick "NOTICE $nick :$notic $tolak" ; return 0 }
-	if {$rest == ""} { puthelp "NOTICE $nick :$notic Usage: `topic Welcome to $chan" ; return 0 }
-	putserv "TOPIC $chan :$rest"
-}
-
-proc pub_topic {nick uhost hand chan rest} {
-	global notic botnick
-	if {![isop $botnick $chan]} { putquick "NOTICE $nick :$notic [katakata "sorry, im not operator"]";return 0 }
+	if {![matchattr $hand Z]} { putquick "NOTICE $nick :$notic $tolak" ; return 0 }
 	if {$rest == ""} { puthelp "NOTICE $nick :$notic Usage: `topic Welcome to $chan" ; return 0 }
 	putserv "TOPIC $chan :$rest"
 }
 
 proc pub_plusgreet {nick uhost hand chan rest} {
-	global botnick notic greetmode
+	global botnick notic greetmode aktif disable
 	if {$greetmode == "1"} {
 		foreach i [channel info $chan] {
 			if {[string match "+sambut" $i]} {putquick "NOTICE $nick :$notic AuToGreET is  AlReady \[$aktif\]"; return 0}
@@ -801,10 +841,10 @@ proc pub_plusgreet {nick uhost hand chan rest} {
 }
 
 proc pub_mingreet {nick uhost hand chan rest} {
-	global botnick notic greetmode
+	global botnick notic greetmode deaktif disable
 	if {$greetmode == "1"} {
 		foreach i [channel info $chan] {
-			if {[string match "-sambut" $i]} {putquick "NOTICE $nick :$notic AuToGreET is AlReady \[\$deaktif\]"; return 0}
+			if {[string match "-sambut" $i]} {putquick "NOTICE $nick :$notic AuToGreET is AlReady \[$deaktif\]"; return 0}
 		}
 		channel set $chan -sambut ; save
 		putquick "NOTICE $nick :$notic AuToGreET\002 $chan \002iS \[$deaktif\] "
@@ -813,12 +853,135 @@ proc pub_mingreet {nick uhost hand chan rest} {
 	}
 }
 
+proc cvd_autofriend {nick uhost hand chan} {
+	global botnick
+	if {$hand == ""} {return 0}
+	if {![isop $botnick $chan]} {return 0}
+	if {[isvoice $nick $chan] || [isop $nick $chan]} {return 0}
+	# Deliberately NOT filtered against netsplit rejoins (unlike greet) -
+	# a returning nick loses its channel modes on a genuine split, so it
+	# needs to be re-voiced just like a fresh join would.
+	if {[matchattr $hand v $chan]} {
+		putserv "MODE $chan +v $nick"
+	}
+}
+
+# C: generic per-hand/per-command cooldown, same sliding-window shape as the
+# autogreet anti-flood above. Used to stop a single account from hammering
+# a moderation command repeatedly (fat-fingered script, compromised
+# account, etc). window/max come from the existing global-flood-* config
+# vars so there's one place to tune both eggdrop's own flood control and
+# these command cooldowns.
+proc cvd_cmd_allowed {hand cmdname max window} {
+	global cvd_cmdtimes
+	set key "$hand,$cmdname"
+	set now [clock seconds]
+	if {![info exists cvd_cmdtimes($key)]} {set cvd_cmdtimes($key) {}}
+	set fresh {}
+	foreach t $cvd_cmdtimes($key) {
+		if {$now - $t < $window} {lappend fresh $t}
+	}
+	if {[llength $fresh] >= $max} {
+		set cvd_cmdtimes($key) $fresh
+		return 0
+	}
+	lappend fresh $now
+	set cvd_cmdtimes($key) $fresh
+	return 1
+}
+
+proc cvd_splt {nick uhost hand chan} {
+	global cvd_splitnicks
+	set cvd_splitnicks($chan,[string tolower $nick]) 1
+}
+
+proc cvd_rejn {nick uhost hand chan} {
+	global cvd_splitnicks
+	catch {unset cvd_splitnicks($chan,[string tolower $nick])}
+}
+
+proc cvd_kick {nick uhost hand chan target reason} {
+	global botnick cvd_rejointimes cvd_rejoinsuppress
+	global cvd-rejoin-delay cvd-rejoin-max cvd-rejoin-window cvd-rejoin-cooldown
+
+	if {[string tolower $target] != [string tolower $botnick]} {return 0}
+
+	# A deliberate kick from a recognized owner/Z user means "go away" -
+	# don't fight back in.
+	if {[matchattr $hand Z]} {
+		putlog "!cVd! Kicked from $chan by owner $nick, not auto-rejoining"
+		return 0
+	}
+
+	set now [clock seconds]
+	if {[info exists cvd_rejoinsuppress($chan)] && $now < $cvd_rejoinsuppress($chan)} {
+		putlog "!cVd! Kicked from $chan again by $nick, rejoin still on cooldown"
+		return 0
+	}
+	if {![info exists cvd_rejointimes($chan)]} {set cvd_rejointimes($chan) {}}
+	lappend cvd_rejointimes($chan) $now
+	set fresh {}
+	foreach t $cvd_rejointimes($chan) {
+		if {$now - $t <= ${cvd-rejoin-window}} {lappend fresh $t}
+	}
+	set cvd_rejointimes($chan) $fresh
+	if {[llength $fresh] > ${cvd-rejoin-max}} {
+		set cvd_rejoinsuppress($chan) [expr {$now + ${cvd-rejoin-cooldown}}]
+		putlog "!cVd! Kicked from $chan too many times ($nick), giving up rejoin for ${cvd-rejoin-cooldown}s"
+		return 0
+	}
+
+	putlog "!cVd! Kicked from $chan by $nick ($reason), rejoining in ${cvd-rejoin-delay}s"
+	utimer ${cvd-rejoin-delay} [list putserv "JOIN $chan"]
+}
+
 proc kirim_sambutan {nick uhost hand chan} {
-	global botnick sambutm
+	global botnick sambutm cvd_splitnicks cvd_greettimes cvd_greetsuppress
+	global greet-burst-max greet-burst-window greet-burst-cooldown
+
+	# Netsplit protection: if this nick was seen SPLT-ing off this channel
+	# earlier, this join is just them coming back - stay silent and clear
+	# the marker so a genuine future join is greeted normally again.
+	set splitkey "$chan,[string tolower $nick]"
+	if {[info exists cvd_splitnicks($splitkey)]} {
+		unset cvd_splitnicks($splitkey)
+		return 0
+	}
+
+	# General join-flood protection: if too many greet-eligible joins land
+	# on this channel within a short window (mass joins after a netsplit
+	# ends, raids, etc), pause autogreet on that channel for a cooldown
+	# period instead of spamming every single joiner.
+	set now [clock seconds]
+	if {[info exists cvd_greetsuppress($chan)] && $now < $cvd_greetsuppress($chan)} {
+		return 0
+	}
+	if {![info exists cvd_greettimes($chan)]} {set cvd_greettimes($chan) {}}
+	lappend cvd_greettimes($chan) $now
+	set fresh {}
+	foreach t $cvd_greettimes($chan) {
+		if {$now - $t <= ${greet-burst-window}} {lappend fresh $t}
+	}
+	set cvd_greettimes($chan) $fresh
+	if {[llength $fresh] > ${greet-burst-max}} {
+		set cvd_greetsuppress($chan) [expr {$now + ${greet-burst-cooldown}}]
+		putlog "!cVd! Join flood on $chan, autogreet paused for ${greet-burst-cooldown}s"
+		return 0
+	}
+
 	foreach i [channel info $chan] {
 		if {[string match "+sambut" $i]} {
 			set sambutmsg [lindex $sambutm [rand [llength $sambutm]]]
-			putserv "PRIVMSG $chan :Hai \0030,1 $nick \003, $sambutmsg"
+			# getaccount only returns a real account name on networks with
+			# IRCv3 account-tracking (extended-join + account-notify + WHOX).
+			# On networks without it, it returns "" and we just skip this part.
+			set acct ""
+			catch {set acct [getaccount $nick $chan]}
+			if {$acct != "" && $acct != "*"} {
+				putserv "PRIVMSG $chan :Hai \0030,1 $nick \003 (account: $acct), $sambutmsg"
+			} else {
+				putserv "PRIVMSG $chan :Hai \0030,1 $nick \003, $sambutmsg"
+			}
 		}
 	}
 }
@@ -864,12 +1027,39 @@ proc pingreply {nick host hand dest key arg} {
 }
 
 proc evnt:init_server {type} {
-	global botnick network
+	global botnick network ircv3caps
 	putquick "MODE $botnick +xiB-ws"
-	if {$network == "dal.net"} {
-		set servicename "*!*@dal.net"
-		if {[isignore $servicename]} {killignore $servicename ; return 0}
-		putlog "!cVd Remove DALnet Ignored List"
+	set ignsvc [cvd_netget $network ignsvc ""]
+	if {$ignsvc != "" && [isignore $ignsvc]} {
+		killignore $ignsvc
+		putlog "!cVd! Remove $network Ignored List"
+	}
+	# IRCv3: ask the server what capabilities got negotiated on this
+	# connect. This is safe on networks with no IRCv3 support at all -
+	# 'cap' is only unavailable if the 'server' module isn't loaded, and
+	# 'cap enabled' just returns an empty list when nothing was negotiated.
+	set ircv3caps ""
+	if {![catch {cap enabled} caps]} {
+		set ircv3caps $caps
+	}
+	if {$ircv3caps != ""} {
+		putlog "!cVd! IRCv3 caps negotiated: $ircv3caps"
+	} else {
+		putlog "!cVd! No IRCv3 caps negotiated (legacy server or none requested)"
+	}
+}
+
+proc cvd_hascap {name} {
+	global ircv3caps
+	return [expr {[lsearch -exact $ircv3caps $name] >= 0}]
+}
+
+bind account - * cvd_account
+proc cvd_account {nick user hand chan account} {
+	if {$account == "*"} {
+		putlog "!cVd! $nick logged out of services on $chan"
+	} else {
+		putlog "!cVd! $nick logged into services as $account on $chan"
 	}
 }
 
@@ -978,12 +1168,12 @@ proc kirimhelp {nick uhost hand rest} {
 	puthelp "PRIVMSG $nick :\002`kb\002 <nick>							- [katakata "ask bot to kickban nick from channel"]"
 	puthelp "PRIVMSG $nick :\002`ub\002 <nick>							- [katakata "ask bot to unban nick"]"
 	puthelp "PRIVMSG $nick :\002`mub\002 <nick>							- [katakata "ask bot to mass unban"]"
-	puthelp "PRIVMSG $nick :\002`v\002 <nick>							- [katakata "ask bot to voice nick"]"
+	puthelp "PRIVMSG $nick :\002`+v\002 <nick>							- [katakata "ask bot to voice nick"]"
 	puthelp "PRIVMSG $nick :\002`mv\002 <nick>							- [katakata "ask bot to mass voice nick"]"
-	puthelp "PRIVMSG $nick :\002`dv\002 <nick>							- [katakata "ask bot to devoice nick"]"
+	puthelp "PRIVMSG $nick :\002`-v\002 <nick>							- [katakata "ask bot to devoice nick"]"
 	puthelp "PRIVMSG $nick :\002`dmv\002 <nick>							- [katakata "ask bot to mass devoice nick"]"
-	puthelp "PRIVMSG $nick :\002`o\002 <nick>							- [katakata "ask bot to @op nick"]"
-	puthelp "PRIVMSG $nick :\002`do\002 <nick>							- [katakata "ask bot to de@op nick"]"
+	puthelp "PRIVMSG $nick :\002`+o\002 <nick>							- [katakata "ask bot to @op nick"]"
+	puthelp "PRIVMSG $nick :\002`-o\002 <nick>							- [katakata "ask bot to de@op nick"]"
 	puthelp "PRIVMSG $nick :\002`+greet\002							- [katakata "ask bot to start greeting user join"]"
 	puthelp "PRIVMSG $nick :\002`-greet\002							- [katakata "ask bot to stop greeting user join"]"
 	puthelp "PRIVMSG $nick :\002`cycle\002							- [katakata "ask bot to cycle from channel"]"
