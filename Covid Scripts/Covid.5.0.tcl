@@ -1,10 +1,10 @@
 ##############################################################################
 ##                                                                          ##
 ## TCL NAME     : COVID TCL                                                 ##
-## VERSION      : 3.0b                                                      ##
+## VERSION      : 5.0                                                       ##
 ## AUTHOR       : IJOO A.K.A VICTOR                                         ##
 ##                                                                          ##
-## This is not Protection Scripts                                           ##
+## This is bot Control with Protection Scripts                              ##
 ## Just basic control to your eggdrop..                                     ##
 ## Working and Tested on irc.dal.net & irc.evochat.id                       ##
 ##                                                                          ##
@@ -19,7 +19,7 @@
 ##############################################################################
 
 ######################################### You Can Edit Here ##################
-set verc "3.0b"
+set verc "5.0"
 set notic "!\002c\037V\037d\002!"
 set notim "!\002c\037V\037d\002!"
 set tolak "\002\0034deNieD!\003\002"
@@ -28,51 +28,6 @@ set aktif "\002ACTIVATED\002"
 set deaktif "\002DEACTIVATED\002"
 set enable "\002ENABLE\002"
 set disable "\002DISABLE\002"
-
-# Autogreet anti-flood: how many greets are allowed within
-# greet-burst-window seconds before autogreet pauses itself for
-# greet-burst-cooldown seconds on that channel (protects against mass
-# joins after a netsplit, raids, etc). Netsplit rejoins are additionally
-# always silenced via the SPLT/REJN binds below, regardless of these
-# numbers.
-# All the values below can also be changed live without editing the
-# file, via /msg botnick cvdset <category> <option> <value> (see
-# msg_cvdset) - guarded with [info exists] so a .rehash doesn't wipe out
-# a live-adjusted value back to these defaults.
-if {![info exists greet-burst-max]} {set greet-burst-max 3}
-if {![info exists greet-burst-window]} {set greet-burst-window 10}
-if {![info exists greet-burst-cooldown]} {set greet-burst-cooldown 30}
-
-# Auto-rejoin when the bot gets kicked (unless the kicker is a recognized
-# owner/Z user - that's treated as intentional, so the bot stays out).
-# Also guards against a kick-war loop: if the bot is kicked from the same
-# channel more than cvd-rejoin-max times within cvd-rejoin-window seconds,
-# it stops trying and waits cvd-rejoin-cooldown seconds instead of
-# rejoining (and probably getting kicked again) forever.
-if {![info exists cvd-rejoin-delay]} {set cvd-rejoin-delay 10}
-if {![info exists cvd-rejoin-max]} {set cvd-rejoin-max 3}
-if {![info exists cvd-rejoin-window]} {set cvd-rejoin-window 60}
-if {![info exists cvd-rejoin-cooldown]} {set cvd-rejoin-cooldown 300}
-
-# Auto-moderate: if more than cvd-automod-max joins land on a channel
-# within cvd-automod-window seconds (raid, mass-join, netsplit storm -
-# regardless of cause, unlike greet-burst this one does NOT exempt
-# netsplit rejoins, since a mass-rejoin is exactly the kind of join storm
-# this is meant to guard against), set channel mode +m for
-# cvd-automod-duration seconds so randoms can't talk/spam while the
-# storm sorts itself out, then automatically lift it. Only ever acts
-# while the bot is actually op on the channel.
-if {![info exists cvd-automod-max]} {set cvd-automod-max 10}
-if {![info exists cvd-automod-window]} {set cvd-automod-window 8}
-if {![info exists cvd-automod-duration]} {set cvd-automod-duration 60}
-
-# `+guard is useless if the bot isn't actually op - none of the
-# protection binds can kick/deop/moderate without it. Whenever guard
-# turns on (or the bot joins/gets deopped on a channel that already has
-# it on), the bot tries to get op and waits cvd-guard-op-grace seconds;
-# if it's still not op by then, guard is switched back off automatically
-# and the owner gets told why (see cvd_guard_ensure_op below).
-if {![info exists cvd-guard-op-grace]} {set cvd-guard-op-grace 30}
 ##############################################################################
 
 set partm {
@@ -126,9 +81,18 @@ set global-chanset {
         -autohalfop
 }
 
-# F: per-network quirks (NickServ target, services host to un-ignore, etc)
-# collected in one table instead of scattered "if {$network == ..." checks,
-# so adding a new network later means adding one array entry here.
+if {![info exists greet-burst-max]} {set greet-burst-max 3}
+if {![info exists greet-burst-window]} {set greet-burst-window 10}
+if {![info exists greet-burst-cooldown]} {set greet-burst-cooldown 30}
+if {![info exists cvd-rejoin-delay]} {set cvd-rejoin-delay 10}
+if {![info exists cvd-rejoin-max]} {set cvd-rejoin-max 3}
+if {![info exists cvd-rejoin-window]} {set cvd-rejoin-window 60}
+if {![info exists cvd-rejoin-cooldown]} {set cvd-rejoin-cooldown 300}
+if {![info exists cvd-automod-max]} {set cvd-automod-max 10}
+if {![info exists cvd-automod-window]} {set cvd-automod-window 8}
+if {![info exists cvd-automod-duration]} {set cvd-automod-duration 60}
+if {![info exists cvd-guard-op-grace]} {set cvd-guard-op-grace 30}
+
 array set cvd_netprofile {
 	dal.net {svc "NickServ@services.dal.net" ignsvc "*!*@dal.net"}
 }
@@ -142,11 +106,6 @@ proc cvd_netget {network key default} {
 	return $default
 }
 
-# B: apply the global-flood-*/global-chanmode/global-chanset defaults above
-# to a channel. Only meant to be called once, right after a channel is
-# newly added (see msg_join/pub_join/basechan below) - it won't re-run on
-# channels that were already known, so settings you customize later via
-# `chanset` on a live channel are left alone across .rehash.
 proc cvd_apply_defaults {chan} {
 	global global-chanmode global-flood-chan global-flood-deop global-flood-kick
 	global global-flood-join global-flood-ctcp global-flood-nick global-aop-delay
@@ -213,12 +172,12 @@ bind pub Z `-greet pub_mingreet
 bind pub Z `+guard pub_plusguard
 bind pub Z `-guard pub_minguard
 bind pub Z `status pub_status
-bind pub Z `v pub_pois
+bind pub Z `+v pub_pois
 bind pub Z `mv pub_mpois
-bind pub Z `dv pub_depois
+bind pub Z `-v pub_depois
 bind pub Z `mdv pub_mdepois
-bind pub Z `o pub_opers
-bind pub Z `do pub_dopers
+bind pub Z `+o pub_opers
+bind pub Z `-o pub_dopers
 bind pub Z `deluser pub_deluser
 bind pub Z `userlist pub_userlist
 bind pubm Z * pub_botcmd
@@ -405,13 +364,6 @@ proc msg_greetonoff {nick host hand rest} {
 	}
 }
 
-# Central live-tuning command for every threshold/timing value used by
-# the anti-flood/protection features above, so none of them are stuck
-# needing a file edit + rehash to adjust. Usage:
-#   cvdset                          - list all categories
-#   cvdset <category>               - list that category's options + values
-#   cvdset <category> <option>      - show one value
-#   cvdset <category> <option> <n>  - set one value (non-negative integer)
 proc msg_cvdset {nick host hand rest} {
 	global notic
 
@@ -979,9 +931,6 @@ proc pub_plusguard {nick uhost hand chan rest} {
 		if {[string match "+guard" $i]} {putquick "NOTICE $nick :$notic PrOTeksI ChanNel is AlReady \[$aktif\]"; return 0}
 	}
 	channel set $chan +guard ; save
-	# +guard also restores eggdrop's own baseline flood counters for this
-	# channel (they get zeroed out by -guard below) - a "protected"
-	# channel should mean fully protected, native flood-control included.
 	catch {channel set $chan flood-chan ${global-flood-chan}}
 	catch {channel set $chan flood-join ${global-flood-join}}
 	catch {channel set $chan flood-ctcp ${global-flood-ctcp}}
@@ -998,11 +947,6 @@ proc pub_minguard {nick uhost hand chan rest} {
 		if {[string match "-guard" $i]} {putquick "NOTICE $nick :$notic PrOTeksI ChanNel is AlReady \[$deaktif\]"; return 0}
 	}
 	channel set $chan -guard ; save
-	# -guard means fully OFF, not just our own extra logic - also zero
-	# out eggdrop's native flood-* counters for this channel so there's
-	# genuinely no protection left running, matching what `+guard turns
-	# back on above. (0:0 disables that specific flood check entirely,
-	# per eggdrop's own channel-settings docs.)
 	catch {channel set $chan flood-chan 0:0}
 	catch {channel set $chan flood-join 0:0}
 	catch {channel set $chan flood-ctcp 0:0}
@@ -1012,12 +956,6 @@ proc pub_minguard {nick uhost hand chan rest} {
 	putquick "NOTICE $nick :$notic PrOTeksI ChanNel\002 $chan \002iS \[$deaktif\] "
 }
 
-# Master switch for the protection engine (cvd_flood's friend-exemption
-# + logging, cvd_modeprotect, cvd_joinburst, and cvd_kick's owner/friend
-# retaliation branch) - all gated behind `+guard so it's off by default
-# per channel, same UX as `+greet. Returns 1 (treat as "on") for anything
-# that isn't a real channel (e.g. a "msg"-type flood with no channel),
-# since there's nothing to gate in that case.
 proc cvd_guard_on {chan} {
 	if {$chan == "" || [string index $chan 0] != "#"} {return 1}
 	foreach i [channel info $chan] {
@@ -1026,11 +964,6 @@ proc cvd_guard_on {chan} {
 	return 0
 }
 
-# Best-effort "tell the owner directly" - $owner is a handle, not
-# necessarily an online nick, so instead of guessing we look for anyone
-# with the Z flag actually sitting on a channel we're on and NOTICE them
-# there. Falls back to putlog only if the owner isn't visible anywhere
-# (still logged either way, so nothing is silently lost).
 proc cvd_notify_owner {msg} {
 	set sent 0
 	foreach c [channels] {
@@ -1046,12 +979,6 @@ proc cvd_notify_owner {msg} {
 	}
 }
 
-# `+guard is pointless without op - none of the protection binds
-# (kick/deop-revenge, auto-moderate) can act without it. Call this
-# whenever guard just turned on, the bot joins a channel that already
-# has it on, or the bot gets deopped while it's on. Tries to get op,
-# waits cvd-guard-op-grace seconds, and if still not op by then, turns
-# guard back off itself and tells the owner why.
 proc cvd_guard_ensure_op {chan} {
 	global botnick cvd_guard_pending
 
@@ -1103,14 +1030,12 @@ proc pub_status {nick uhost hand chan rest} {
 	}
 	puthelp "PRIVMSG $chan :$notim [katakata "channel protection for"] $chan \[$aktif\]: [join $parts { }]"
 
-	# Read the LIVE per-channel values (not the global template) since
-	# +guard/-guard actually flip these per channel now.
 	set fj "?" ; set fc "?" ; set fk "?" ; set fd "?"
 	catch {set fj [channel get $chan flood-join]}
 	catch {set fc [channel get $chan flood-ctcp]}
 	catch {set fk [channel get $chan flood-kick]}
 	catch {set fd [channel get $chan flood-deop]}
-	puthelp "PRIVMSG $chan :$notim [katakata "baseline eggdrop flood on"] $chan: $fj [katakata "join"], $fc [katakata "ctcp"], $fk [katakata "kick"], $fd [katakata "deop"]"
+	puthelp "PRIVMSG $chan :$notim [katakata "Guard flood on"] $chan: $fj [katakata "join"], $fc [katakata "ctcp"], $fk [katakata "kick"], $fd [katakata "deop"]"
 }
 
 proc cvd_autofriend {nick uhost hand chan} {
@@ -1126,12 +1051,6 @@ proc cvd_autofriend {nick uhost hand chan} {
 	}
 }
 
-# C: generic per-hand/per-command cooldown, same sliding-window shape as the
-# autogreet anti-flood above. Used to stop a single account from hammering
-# a moderation command repeatedly (fat-fingered script, compromised
-# account, etc). window/max come from the existing global-flood-* config
-# vars so there's one place to tune both eggdrop's own flood control and
-# these command cooldowns.
 proc cvd_cmd_allowed {hand cmdname max window} {
 	global cvd_cmdtimes
 	set key "$hand,$cmdname"
@@ -1164,11 +1083,6 @@ proc cvd_kick {nick uhost hand chan target reason} {
 	global botnick cvd_rejointimes cvd_rejoinsuppress
 	global cvd-rejoin-delay cvd-rejoin-max cvd-rejoin-window cvd-rejoin-cooldown
 
-	# Owner/friend protection: someone else (not the bot) just got kicked.
-	# If the victim is a recognized owner/friend and the kicker isn't one
-	# themselves (and isn't network services), kick the attacker back as
-	# a deterrent. We can't un-kick the victim - IRC has no such thing -
-	# so this is punishment only, not recovery.
 	if {[string tolower $target] != [string tolower $botnick]} {
 		if {[cvd_guard_on $chan] && ![string match "*Serv*" $nick] && $nick != $target
 			&& ![matchattr $hand Z] && ![matchattr $hand f]
@@ -1183,8 +1097,6 @@ proc cvd_kick {nick uhost hand chan target reason} {
 		return 0
 	}
 
-	# A deliberate kick from a recognized owner/Z user means "go away" -
-	# don't fight back in.
 	if {[matchattr $hand Z]} {
 		putlog "!cVd! Kicked from $chan by owner $nick, not auto-rejoining"
 		return 0
@@ -1212,15 +1124,6 @@ proc cvd_kick {nick uhost hand chan target reason} {
 	utimer ${cvd-rejoin-delay} [list putserv "JOIN $chan"]
 }
 
-# Eggdrop's own flood-control counters (flood-chan/flood-join/flood-ctcp/
-# flood-deop/flood-kick/flood-nick, applied per-channel via
-# cvd_apply_defaults above) do the actual counting. This bind just gets
-# called right before eggdrop metes out its normal punishment for a flood
-# it already detected - we only use it to (a) log what happened and
-# (b) protect friends/owners from a false-positive trip (e.g. a friend's
-# client reconnecting/resending quickly). Returning 1 tells eggdrop to
-# skip its normal punishment for this event; returning 0 lets it proceed
-# as usual (kick/ban per the channel's flood settings).
 proc cvd_flood {nick uhost hand type chan} {
 	if {![cvd_guard_on $chan]} {return 0}
 	if {[matchattr $hand Z] || [matchattr $hand f]} {
@@ -1231,15 +1134,6 @@ proc cvd_flood {nick uhost hand type chan} {
 	return 0
 }
 
-# Owner/friend op-protection: if a non-friend deops the bot or a
-# recognized owner/friend, retaliate. Two cases:
-#   - target is someone ELSE (still op ourselves): kick the deopper and
-#     re-op the victim immediately.
-#   - target is the bot itself: we just lost our own op, so we can no
-#     longer kick anyone or re-op ourselves via pushmode - the best we
-#     can safely do (works or not, depending on the network) is ask
-#     ChanServ-style services to re-op us, wrapped in catch so it's a
-#     harmless no-op on networks without such services.
 proc cvd_modeprotect {nick uhost hand chan mchange target} {
 	global botnick
 
@@ -1267,11 +1161,6 @@ proc cvd_modeprotect {nick uhost hand chan mchange target} {
 	return 0
 }
 
-# Auto-moderate on join burst. Deliberately independent from the
-# greet-burst counter above (kirim_sambutan) - that one only ever pauses
-# the welcome message; this one actually locks the channel down (+m) so
-# a real raid/mass-join storm can't flood it with chat/spam while it
-# sorts itself out. Every join counts here, including netsplit rejoins.
 proc cvd_joinburst {nick uhost hand chan} {
 	global botnick cvd_bursttimes cvd_automod
 	global cvd-automod-max cvd-automod-window cvd-automod-duration
@@ -1318,20 +1207,12 @@ proc cvd_unmoderate {chan} {
 proc kirim_sambutan {nick uhost hand chan} {
 	global botnick sambutm cvd_splitnicks cvd_greettimes cvd_greetsuppress
 	global greet-burst-max greet-burst-window greet-burst-cooldown
-
-	# Netsplit protection: if this nick was seen SPLT-ing off this channel
-	# earlier, this join is just them coming back - stay silent and clear
-	# the marker so a genuine future join is greeted normally again.
 	set splitkey "$chan,[string tolower $nick]"
 	if {[info exists cvd_splitnicks($splitkey)]} {
 		unset cvd_splitnicks($splitkey)
 		return 0
 	}
 
-	# General join-flood protection: if too many greet-eligible joins land
-	# on this channel within a short window (mass joins after a netsplit
-	# ends, raids, etc), pause autogreet on that channel for a cooldown
-	# period instead of spamming every single joiner.
 	set now [clock seconds]
 	if {[info exists cvd_greetsuppress($chan)] && $now < $cvd_greetsuppress($chan)} {
 		return 0
@@ -1549,12 +1430,12 @@ proc kirimhelp {nick uhost hand rest} {
 	puthelp "PRIVMSG $nick :\002`kb\002 <nick>							- [katakata "ask bot to kickban nick from channel"]"
 	puthelp "PRIVMSG $nick :\002`ub\002 <nick>							- [katakata "ask bot to unban nick"]"
 	puthelp "PRIVMSG $nick :\002`mub\002 <nick>							- [katakata "ask bot to mass unban"]"
-	puthelp "PRIVMSG $nick :\002`v\002 <nick>							- [katakata "ask bot to voice nick"]"
+	puthelp "PRIVMSG $nick :\002`+v\002 <nick>							- [katakata "ask bot to voice nick"]"
 	puthelp "PRIVMSG $nick :\002`mv\002 <nick>							- [katakata "ask bot to mass voice nick"]"
-	puthelp "PRIVMSG $nick :\002`dv\002 <nick>							- [katakata "ask bot to devoice nick"]"
+	puthelp "PRIVMSG $nick :\002`-v\002 <nick>							- [katakata "ask bot to devoice nick"]"
 	puthelp "PRIVMSG $nick :\002`dmv\002 <nick>							- [katakata "ask bot to mass devoice nick"]"
-	puthelp "PRIVMSG $nick :\002`o\002 <nick>							- [katakata "ask bot to @op nick"]"
-	puthelp "PRIVMSG $nick :\002`do\002 <nick>							- [katakata "ask bot to de@op nick"]"
+	puthelp "PRIVMSG $nick :\002`+o\002 <nick>							- [katakata "ask bot to @op nick"]"
+	puthelp "PRIVMSG $nick :\002`-o\002 <nick>							- [katakata "ask bot to de@op nick"]"
 	puthelp "PRIVMSG $nick :\002`+greet\002							- [katakata "ask bot to start greeting user join"]"
 	puthelp "PRIVMSG $nick :\002`-greet\002							- [katakata "ask bot to stop greeting user join"]"
 	puthelp "PRIVMSG $nick :\002`+guard\002							- [katakata "activate channel protection engine"]"
@@ -1568,5 +1449,5 @@ proc kirimhelp {nick uhost hand rest} {
 }
 
 putlog "#######################################"
-putlog "##       Covid.v2.Tcl is Loaded!!       ##"
+putlog "##       Covid.5.0.Tcl is Loaded!!   ##"
 putlog "#######################################"
