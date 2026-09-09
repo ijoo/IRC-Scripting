@@ -1,10 +1,10 @@
-# Covid.v2.tcl
+# Covid.tcl
 
 An [Eggdrop](https://www.eggheads.org/) Tcl script for basic bot control — auth/ownership, channel join/part management, moderation commands (kick/ban/voice/op), autogreet, and a small but fairly complete per-channel **protection engine** (flood reaction, deop/kick revenge, join-burst auto-moderation, and a bad-word filter) — built to stay portable across IRC networks rather than hardcoded to one.
 
 Original author: **IJOO A.K.A VICTOR**. Version `3.0b`. Tested on `irc.dal.net` and `irc.evochat.id`, but written to run correctly on any network — see [Portability](#portability).
 
-> `Covid.v2.tcl` is the actively-developed branch. `Covid.tcl` (the original) is kept for reference but no longer receives new features.
+> `Covid.5.0.tcl` is the actively-developed branch. `Covid.tcl` (the original) is kept for reference but no longer receives new features.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ Original author: **IJOO A.K.A VICTOR**. Version `3.0b`. Tested on `irc.dal.net` 
 
 ## Installation
 
-1. Copy `scripts/Covid.v2.tcl` into your bot's `scripts/` directory.
+1. Copy `scripts/Covid.5.0.tcl` into your bot's `scripts/` directory.
 2. Source it from your config file, after the modules above are loaded:
 
    ```tcl
@@ -28,7 +28,7 @@ Original author: **IJOO A.K.A VICTOR**. Version `3.0b`. Tested on `irc.dal.net` 
    set nick     "BotNick"
    set nickpass "yournickservpassword"
 
-   source scripts/Covid.v2.tcl
+   source scripts/Covid.5.0.tcl
    ```
 
 3. `basechan` (if set before the script loads) is auto-added and gets the default channel settings applied on first load — see [Defaults applied to new channels](#defaults-applied-to-new-channels).
@@ -44,7 +44,7 @@ set sasl-username "yournick"
 set sasl-password "yournickservpassword"
 ```
 
-This is a native eggdrop core feature, not something `Covid.v2.tcl` implements — on networks without SASL, eggdrop simply skips it and the script's own `autoident` (NickServ identify) still runs as a fallback.
+This is a native eggdrop core feature, not something `Covid.5.0.tcl` implements — on networks without SASL, eggdrop simply skips it and the script's own `autoident` (NickServ identify) still runs as a fallback.
 
 ## Portability
 
@@ -172,7 +172,7 @@ Whenever the bot joins a brand-new channel (via `` `join``/`join`, or `basechan`
 
 ## Non-goals
 
-This script does not aim to be a full-featured protection bot (no clone/ban-on-sight enforcement, no bot-to-bot sync, no seen/DCC-chat console beyond eggdrop's own partyline). If you need that level of coverage, pair it with a dedicated protection script — `Covid.v2.tcl`'s guard engine is meant to cover the common cases (flood, deop/kick revenge, raid join-bursts, bad words) without the overhead of a much larger script.
+This script does not aim to be a full-featured protection bot (no clone/ban-on-sight enforcement, no bot-to-bot sync, no seen/DCC-chat console beyond eggdrop's own partyline). If you need that level of coverage, pair it with a dedicated protection script — `Covid.5.0.tcl`'s guard engine is meant to cover the common cases (flood, deop/kick revenge, raid join-bursts, bad words) without the overhead of a much larger script.
 
 ## License
 
