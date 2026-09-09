@@ -1,10 +1,10 @@
 ##############################################################################
 ##                                                                          ##
 ## TCL NAME     : COVID TCL                                                 ##
-## VERSION      : 5.0                                                      ##
+## VERSION      : 5.0                                                       ##
 ## AUTHOR       : IJOO A.K.A VICTOR                                         ##
 ##                                                                          ##
-## This is a Protection Scripts                                           ##
+## This is a Protection Scripts                                             ##
 ## Just basic control to your eggdrop..                                     ##
 ## Working and Tested on irc.dal.net & irc.evochat.id                       ##
 ##                                                                          ##
