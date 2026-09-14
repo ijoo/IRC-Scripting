@@ -1,8 +1,8 @@
 ##############################################################################
 ##                                                                          ##
-## TCL NAME     : ALKITAB TCL                                              ##
+## TCL NAME     : ALKITAB TCL                                               ##
 ## VERSION      : 1.0                                                       ##
-## DESCRIPTION  : Menampilkan ayat Alkitab (TB) dari database lokal        ##
+## DESCRIPTION  : Menampilkan ayat Alkitab (TB) dari database lokal         ##
 ##                                                                          ##
 ## PENGGUNAAN   :                                                           ##
 ##   !kitab Kej 1:1          - satu ayat                                    ##
@@ -21,7 +21,7 @@ if {![info exists alkitab_max_lines]} {set alkitab_max_lines 6}
 if {![info exists alkitab_line_len]} {set alkitab_line_len 400}
 
 ##############################################################################
-## Daftar kitab: full name by book_id (dari tabel books alkitab.db)       ##
+## Daftar kitab:                                                            ##
 ##############################################################################
 foreach _it {
 	{1  Kejadian}          {2  Keluaran}          {3  Imamat}
@@ -51,7 +51,7 @@ foreach _it {
 }
 
 ##############################################################################
-## Padanan nama kitab (sudah dinormalisasi: huruf kecil, tanpa spasi/dash) ##
+## Padanan nama kitab                                                       ##
 ##############################################################################
 proc alkitab:mkaliases {} {
 	global alkitab:alias alkitab:full
@@ -168,7 +168,7 @@ proc alkitab:parse {rest} {
 }
 
 ##############################################################################
-## Kirim satu ayat (dengan pemotongan baris aman)                          ##
+## Kirim satu ayat                                                          ##
 ##############################################################################
 proc alkitab:emit {target bid fullname ch vstart vend} {
 	global alkitab:verses alkitab_label alkitab_line_len alkitab_max_lines
